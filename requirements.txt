@@ -1,0 +1,9 @@
+Flask
+loko-extensions
+loko-client
+loguru
+langchain
+openai
+beautifulsoup4
+tiktoken
+faiss-cpu

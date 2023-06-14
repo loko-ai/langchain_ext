@@ -1,0 +1,5064 @@
+{
+  "name": "langchain_ext",
+  "id": "langchain_ext",
+  "description": "",
+  "created_on": "09/06/2023, 08:26:36",
+  "last_modify": "14/06/2023, 09:43:55",
+  "graphs": {
+    "main": {
+      "nodes": [
+        {
+          "id": "02d33869-e299-4ccf-9096-f729d6d9ddb4",
+          "position": {
+            "x": 436,
+            "y": 108
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Route",
+            "events": null,
+            "description": "### Description\nThe ROUTE component is used to create a web server listening on a specific address and a specific HTTP method.\n\n### Input\nThe component has no input.\n\n### Output\nIn this case there is no fixed output format.",
+            "inputs": [],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "HTTP",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "path",
+                  "type": "path",
+                  "helper": "Insert a path without '/' at start"
+                }
+              ],
+              "click": null,
+              "icon": "RiCloudyFill",
+              "values": {
+                "comment": "",
+                "alias": "MailGenerator",
+                "debug": false,
+                "path": "mail"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "__class__": "Node"
+        },
+        {
+          "id": "5dd7ba12-901b-4670-a88a-adb8cf815626",
+          "position": {
+            "x": 663,
+            "y": 173
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Function",
+            "events": null,
+            "description": "### Description\nThe FUNCTION component is used to apply Python code to the input component's. The input can be retrieved using the variable *data*.\n\nTo be able to use data from components of type FUNCTION that are not linked together, the object is set repository.\n\n```python\nrepository.set('value', 5) - this sets the variable value to 5.\nrepository.get('value') - in this way the variable is called value and the value 5 is returned.\n```\n\n### Input\nThe input is used by the component using the variable **data**.\n\n### Output\nThe output coincides with the return of the code defined when the component was created.",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Common",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "propagate",
+                  "type": "boolean",
+                  "label": "Flush at the end"
+                },
+                {
+                  "name": "notify_warnings",
+                  "type": "boolean",
+                  "label": "Notify warnings"
+                },
+                {
+                  "name": "code",
+                  "type": "code",
+                  "description": "A python function that processes the incoming message. \nVariables available are:\n- **data**: the incoming message\n",
+                  "label": "Code",
+                  "validation": {
+                    "required": "Required field"
+                  },
+                  "fragment": null,
+                  "advanced": false,
+                  "options": null,
+                  "value": null
+                }
+              ],
+              "click": null,
+              "icon": "RiCodeSSlashFill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": false,
+                "propagate": true,
+                "notify_warnings": true,
+                "code": "return data.args.get('text')"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 663,
+            "y": 173
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "fc6277a2-68d9-4d77-b816-9ef69b8c3d58",
+          "position": {
+            "x": 852,
+            "y": 98
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Template",
+            "events": null,
+            "description": "### Description\nThe TEMPLATE component is used to send an HTML template in response to the receipt of an HTTP request captured by a Route component.\n\n### Input\nIn this case there is no fixed input format.\n\n### Output\nThe output will be the HTML template inserted in the component configuration.",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "HTTP",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "code",
+                  "type": "code",
+                  "description": "",
+                  "label": "Template code",
+                  "validation": {
+                    "required": "Required field"
+                  },
+                  "fragment": null,
+                  "advanced": false,
+                  "options": null,
+                  "value": null
+                }
+              ],
+              "click": null,
+              "icon": "RiHtml5Fill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": false,
+                "code": "Write a formal email about the following topics:\n\n{data}\n"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 852,
+            "y": 98
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "8eab668b-7d80-42ee-9e45-b9cde6e9a340",
+          "position": {
+            "x": 1060,
+            "y": 171
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "LLM",
+            "events": null,
+            "description": "",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input",
+                "service": "",
+                "to": "output"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Custom",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "model_name",
+                  "type": "select",
+                  "label": "model_name",
+                  "helper": "",
+                  "group": "",
+                  "value": "text-davinci-003",
+                  "description": "Model name to use.",
+                  "validation": null,
+                  "options": [
+                    "ada",
+                    "babbage",
+                    "code-cushman-001",
+                    "code-cushman-002",
+                    "code-davinci-001",
+                    "code-davinci-002",
+                    "curie",
+                    "davinci",
+                    "gpt-3.5-turbo",
+                    "gpt-3.5-turbo-0301",
+                    "gpt-4",
+                    "gpt-4-0314",
+                    "gpt-4-32k",
+                    "gpt-4-32k-0314",
+                    "text-ada-001",
+                    "text-babbage-001",
+                    "text-curie-001",
+                    "text-davinci-002",
+                    "text-davinci-003"
+                  ]
+                },
+                {
+                  "name": "max_tokens",
+                  "type": "number",
+                  "label": "max_tokens",
+                  "helper": "",
+                  "group": "",
+                  "value": 256,
+                  "description": "The maximum number of tokens to generate in the completion. -1 returns as many tokens as possible given the prompt and the models maximal context size.",
+                  "validation": null
+                },
+                {
+                  "name": "temperature",
+                  "type": "number",
+                  "label": "temperature",
+                  "helper": "",
+                  "group": "",
+                  "value": 1,
+                  "description": "How creative the model should be.",
+                  "validation": null
+                },
+                {
+                  "name": "memory",
+                  "type": "boolean",
+                  "label": "memory",
+                  "helper": "",
+                  "group": "",
+                  "value": false,
+                  "description": "",
+                  "validation": null
+                },
+                {
+                  "name": "type",
+                  "type": "dynamic",
+                  "label": "type",
+                  "helper": "",
+                  "group": "",
+                  "value": null,
+                  "description": "",
+                  "validation": null,
+                  "parent": "memory",
+                  "condition": "{parent}",
+                  "dynamicType": "select",
+                  "options": [
+                    "windows",
+                    "summaries",
+                    "vectors"
+                  ],
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "windows_k",
+                  "type": "dynamic",
+                  "label": "k",
+                  "helper": "",
+                  "group": "",
+                  "value": 5,
+                  "description": "Number of interactions to keep in memory.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='windows'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "summaries_max_token_limit",
+                  "type": "dynamic",
+                  "label": "max_token_limit",
+                  "helper": "",
+                  "group": "",
+                  "value": 2000,
+                  "description": "Number of tokens to keep in memory.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='summaries'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "vectors_embedding_size",
+                  "type": "dynamic",
+                  "label": "embedding_size",
+                  "helper": "",
+                  "group": "",
+                  "value": 1536,
+                  "description": "Embedding size.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='vectors'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "vectors_search_kwargs",
+                  "type": "dynamic",
+                  "label": "search_kwargs",
+                  "helper": "",
+                  "group": "",
+                  "value": 1,
+                  "description": "",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='vectors'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                }
+              ],
+              "click": null,
+              "icon": "RiCheckboxBlankCircleFill",
+              "values": {
+                "model_name": "text-davinci-003",
+                "max_tokens": 256,
+                "temperature": 1,
+                "windows_k": 5,
+                "summaries_max_token_limit": 2000,
+                "vectors_embedding_size": 1536,
+                "vectors_search_kwargs": 1
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 1060,
+            "y": 171
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "513542b7-85c5-4260-a7a4-a3b17936ed83",
+          "position": {
+            "x": 1261,
+            "y": 98
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Response",
+            "events": null,
+            "description": "### Description\nThe RESPONSE component is used to set the type of response output that should be sent upon receipt of an HTTP request captured by a **Route** component.\n\n### Input\nIn this case there is no fixed input format.\n\n### Output\nThe component has no output.",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [],
+            "configured": true,
+            "options": {
+              "group": "HTTP",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "type",
+                  "type": "select",
+                  "options": [
+                    "html",
+                    "json"
+                  ],
+                  "label": "Response Type",
+                  "validation": {
+                    "required": "Required field"
+                  }
+                }
+              ],
+              "click": null,
+              "icon": "RiDownloadCloud2Fill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": false,
+                "type": "json"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 1261,
+            "y": 98
+          },
+          "__class__": "Node"
+        }
+      ],
+      "edges": [
+        {
+          "id": "reactflow__edge-02d33869-e299-4ccf-9096-f729d6d9ddb4output-5dd7ba12-901b-4670-a88a-adb8cf815626input",
+          "source": "02d33869-e299-4ccf-9096-f729d6d9ddb4",
+          "sourceHandle": "output",
+          "target": "5dd7ba12-901b-4670-a88a-adb8cf815626",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#56A6DC",
+            "stopColor": "#D770AD"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-5dd7ba12-901b-4670-a88a-adb8cf815626output-fc6277a2-68d9-4d77-b816-9ef69b8c3d58input",
+          "source": "5dd7ba12-901b-4670-a88a-adb8cf815626",
+          "sourceHandle": "output",
+          "target": "fc6277a2-68d9-4d77-b816-9ef69b8c3d58",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#D770AD",
+            "stopColor": "#56A6DC"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-fc6277a2-68d9-4d77-b816-9ef69b8c3d58output-8eab668b-7d80-42ee-9e45-b9cde6e9a340input",
+          "source": "fc6277a2-68d9-4d77-b816-9ef69b8c3d58",
+          "sourceHandle": "output",
+          "target": "8eab668b-7d80-42ee-9e45-b9cde6e9a340",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#56A6DC",
+            "stopColor": "#888"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-8eab668b-7d80-42ee-9e45-b9cde6e9a340output-513542b7-85c5-4260-a7a4-a3b17936ed83input",
+          "source": "8eab668b-7d80-42ee-9e45-b9cde6e9a340",
+          "sourceHandle": "output",
+          "target": "513542b7-85c5-4260-a7a4-a3b17936ed83",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#888",
+            "stopColor": "#56A6DC"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        }
+      ],
+      "__class__": "Graph"
+    },
+    "classification": {
+      "nodes": [
+        {
+          "id": "e1a84f34-20ef-415a-aea8-09c3d2d723b1",
+          "position": {
+            "x": 444,
+            "y": 135
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Route",
+            "events": null,
+            "description": "### Description\nThe ROUTE component is used to create a web server listening on a specific address and a specific HTTP method.\n\n### Input\nThe component has no input.\n\n### Output\nIn this case there is no fixed output format.",
+            "inputs": [],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "HTTP",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "path",
+                  "type": "path",
+                  "helper": "Insert a path without '/' at start"
+                }
+              ],
+              "click": null,
+              "icon": "RiCloudyFill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": false,
+                "path": "classifiy"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "__class__": "Node"
+        },
+        {
+          "id": "731fa1e3-26a8-4e03-88ca-3f154a54121f",
+          "position": {
+            "x": 666,
+            "y": 188
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Function",
+            "events": null,
+            "description": "### Description\nThe FUNCTION component is used to apply Python code to the input component's. The input can be retrieved using the variable *data*.\n\nTo be able to use data from components of type FUNCTION that are not linked together, the object is set repository.\n\n```python\nrepository.set('value', 5) - this sets the variable value to 5.\nrepository.get('value') - in this way the variable is called value and the value 5 is returned.\n```\n\n### Input\nThe input is used by the component using the variable **data**.\n\n### Output\nThe output coincides with the return of the code defined when the component was created.",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Common",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "propagate",
+                  "type": "boolean",
+                  "label": "Flush at the end"
+                },
+                {
+                  "name": "notify_warnings",
+                  "type": "boolean",
+                  "label": "Notify warnings"
+                },
+                {
+                  "name": "code",
+                  "type": "code",
+                  "description": "A python function that processes the incoming message. \nVariables available are:\n- **data**: the incoming message\n",
+                  "label": "Code",
+                  "validation": {
+                    "required": "Required field"
+                  },
+                  "fragment": null,
+                  "advanced": false,
+                  "options": null,
+                  "value": null
+                }
+              ],
+              "click": null,
+              "icon": "RiCodeSSlashFill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": false,
+                "propagate": true,
+                "notify_warnings": true,
+                "code": "return data.args.get('text')"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 666,
+            "y": 188
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "5dcaf350-ea8d-40e6-9450-8665b524286b",
+          "position": {
+            "x": 875,
+            "y": 132
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Template",
+            "events": null,
+            "description": "### Description\nThe TEMPLATE component is used to send an HTML template in response to the receipt of an HTTP request captured by a Route component.\n\n### Input\nIn this case there is no fixed input format.\n\n### Output\nThe output will be the HTML template inserted in the component configuration.",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "HTTP",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "code",
+                  "type": "code",
+                  "description": "",
+                  "label": "Template code",
+                  "validation": {
+                    "required": "Required field"
+                  },
+                  "fragment": null,
+                  "advanced": false,
+                  "options": null,
+                  "value": null
+                }
+              ],
+              "click": null,
+              "icon": "RiHtml5Fill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": false,
+                "code": "Classify the topic of text into Politics,Art,Health, NotSure. Output only the topic of the text and nothing else.\nText: {data}\nClass:"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 875,
+            "y": 132
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "7fc6b3f3-3044-486b-9fdf-7f9e1d8aef91",
+          "position": {
+            "x": 1076,
+            "y": 184
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "LLM",
+            "events": null,
+            "description": "",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input",
+                "service": "",
+                "to": "output"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Custom",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "model_name",
+                  "type": "select",
+                  "label": "model_name",
+                  "helper": "",
+                  "group": "",
+                  "value": "text-davinci-003",
+                  "description": "Model name to use.",
+                  "validation": null,
+                  "options": [
+                    "ada",
+                    "babbage",
+                    "code-cushman-001",
+                    "code-cushman-002",
+                    "code-davinci-001",
+                    "code-davinci-002",
+                    "curie",
+                    "davinci",
+                    "gpt-3.5-turbo",
+                    "gpt-3.5-turbo-0301",
+                    "gpt-4",
+                    "gpt-4-0314",
+                    "gpt-4-32k",
+                    "gpt-4-32k-0314",
+                    "text-ada-001",
+                    "text-babbage-001",
+                    "text-curie-001",
+                    "text-davinci-002",
+                    "text-davinci-003"
+                  ]
+                },
+                {
+                  "name": "max_tokens",
+                  "type": "number",
+                  "label": "max_tokens",
+                  "helper": "",
+                  "group": "",
+                  "value": 256,
+                  "description": "The maximum number of tokens to generate in the completion. -1 returns as many tokens as possible given the prompt and the models maximal context size.",
+                  "validation": null
+                },
+                {
+                  "name": "temperature",
+                  "type": "number",
+                  "label": "temperature",
+                  "helper": "",
+                  "group": "",
+                  "value": 1,
+                  "description": "How creative the model should be.",
+                  "validation": null
+                },
+                {
+                  "name": "memory",
+                  "type": "boolean",
+                  "label": "memory",
+                  "helper": "",
+                  "group": "",
+                  "value": false,
+                  "description": "",
+                  "validation": null
+                },
+                {
+                  "name": "type",
+                  "type": "dynamic",
+                  "label": "type",
+                  "helper": "",
+                  "group": "",
+                  "value": null,
+                  "description": "",
+                  "validation": null,
+                  "parent": "memory",
+                  "condition": "{parent}",
+                  "dynamicType": "select",
+                  "options": [
+                    "windows",
+                    "summaries",
+                    "vectors"
+                  ],
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "windows_k",
+                  "type": "dynamic",
+                  "label": "k",
+                  "helper": "",
+                  "group": "",
+                  "value": 5,
+                  "description": "Number of interactions to keep in memory.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='windows'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "summaries_max_token_limit",
+                  "type": "dynamic",
+                  "label": "max_token_limit",
+                  "helper": "",
+                  "group": "",
+                  "value": 2000,
+                  "description": "Number of tokens to keep in memory.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='summaries'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "vectors_embedding_size",
+                  "type": "dynamic",
+                  "label": "embedding_size",
+                  "helper": "",
+                  "group": "",
+                  "value": 1536,
+                  "description": "Embedding size.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='vectors'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "vectors_search_kwargs",
+                  "type": "dynamic",
+                  "label": "search_kwargs",
+                  "helper": "",
+                  "group": "",
+                  "value": 1,
+                  "description": "",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='vectors'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                }
+              ],
+              "click": null,
+              "icon": "RiCheckboxBlankCircleFill",
+              "values": {
+                "model_name": "text-davinci-003",
+                "max_tokens": 256,
+                "temperature": 1,
+                "windows_k": 5,
+                "summaries_max_token_limit": 2000,
+                "vectors_embedding_size": 1536,
+                "vectors_search_kwargs": 1
+              }
+            }
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 1076,
+            "y": 184
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "e0aa68e5-301c-4165-b0f2-981904d496c9",
+          "position": {
+            "x": 1290,
+            "y": 125
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Response",
+            "events": null,
+            "description": "### Description\nThe RESPONSE component is used to set the type of response output that should be sent upon receipt of an HTTP request captured by a **Route** component.\n\n### Input\nIn this case there is no fixed input format.\n\n### Output\nThe component has no output.",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [],
+            "configured": true,
+            "options": {
+              "group": "HTTP",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "type",
+                  "type": "select",
+                  "options": [
+                    "html",
+                    "json"
+                  ],
+                  "label": "Response Type",
+                  "validation": {
+                    "required": "Required field"
+                  }
+                }
+              ],
+              "click": null,
+              "icon": "RiDownloadCloud2Fill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": false,
+                "type": "json"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 1290,
+            "y": 125
+          },
+          "__class__": "Node"
+        }
+      ],
+      "edges": [
+        {
+          "id": "reactflow__edge-e1a84f34-20ef-415a-aea8-09c3d2d723b1output-731fa1e3-26a8-4e03-88ca-3f154a54121finput",
+          "source": "e1a84f34-20ef-415a-aea8-09c3d2d723b1",
+          "sourceHandle": "output",
+          "target": "731fa1e3-26a8-4e03-88ca-3f154a54121f",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#56A6DC",
+            "stopColor": "#D770AD"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-731fa1e3-26a8-4e03-88ca-3f154a54121foutput-5dcaf350-ea8d-40e6-9450-8665b524286binput",
+          "source": "731fa1e3-26a8-4e03-88ca-3f154a54121f",
+          "sourceHandle": "output",
+          "target": "5dcaf350-ea8d-40e6-9450-8665b524286b",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#D770AD",
+            "stopColor": "#56A6DC"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-5dcaf350-ea8d-40e6-9450-8665b524286boutput-7fc6b3f3-3044-486b-9fdf-7f9e1d8aef91input",
+          "source": "5dcaf350-ea8d-40e6-9450-8665b524286b",
+          "sourceHandle": "output",
+          "target": "7fc6b3f3-3044-486b-9fdf-7f9e1d8aef91",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#56A6DC",
+            "stopColor": "#888"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-7fc6b3f3-3044-486b-9fdf-7f9e1d8aef91output-e0aa68e5-301c-4165-b0f2-981904d496c9input",
+          "source": "7fc6b3f3-3044-486b-9fdf-7f9e1d8aef91",
+          "sourceHandle": "output",
+          "target": "e0aa68e5-301c-4165-b0f2-981904d496c9",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#888",
+            "stopColor": "#56A6DC"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        }
+      ],
+      "__class__": "Graph"
+    },
+    "codegen": {
+      "nodes": [
+        {
+          "id": "179249c3-f8ab-4d9a-9739-5b23c1a8299e",
+          "position": {
+            "x": 261,
+            "y": 92
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Route",
+            "events": null,
+            "description": "### Description\nThe ROUTE component is used to create a web server listening on a specific address and a specific HTTP method.\n\n### Input\nThe component has no input.\n\n### Output\nIn this case there is no fixed output format.",
+            "inputs": [],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "HTTP",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "path",
+                  "type": "path",
+                  "helper": "Insert a path without '/' at start"
+                }
+              ],
+              "click": null,
+              "icon": "RiCloudyFill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": false,
+                "path": "codegen"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "__class__": "Node"
+        },
+        {
+          "id": "4415ecae-d54e-46a3-a8e3-5736abf9f258",
+          "position": {
+            "x": 477,
+            "y": 135
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Function",
+            "events": null,
+            "description": "### Description\nThe FUNCTION component is used to apply Python code to the input component's. The input can be retrieved using the variable *data*.\n\nTo be able to use data from components of type FUNCTION that are not linked together, the object is set repository.\n\n```python\nrepository.set('value', 5) - this sets the variable value to 5.\nrepository.get('value') - in this way the variable is called value and the value 5 is returned.\n```\n\n### Input\nThe input is used by the component using the variable **data**.\n\n### Output\nThe output coincides with the return of the code defined when the component was created.",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Common",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "propagate",
+                  "type": "boolean",
+                  "label": "Flush at the end"
+                },
+                {
+                  "name": "notify_warnings",
+                  "type": "boolean",
+                  "label": "Notify warnings"
+                },
+                {
+                  "name": "code",
+                  "type": "code",
+                  "description": "A python function that processes the incoming message. \nVariables available are:\n- **data**: the incoming message\n",
+                  "label": "Code",
+                  "validation": {
+                    "required": "Required field"
+                  },
+                  "fragment": null,
+                  "advanced": false,
+                  "options": null,
+                  "value": null
+                }
+              ],
+              "click": null,
+              "icon": "RiCodeSSlashFill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": false,
+                "propagate": true,
+                "notify_warnings": true,
+                "code": "return data.args.get('text')"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 477,
+            "y": 135
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "14d61185-a8b5-4527-921d-337fbfdcd4f8",
+          "position": {
+            "x": 705,
+            "y": 91
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Template",
+            "events": null,
+            "description": "### Description\nThe TEMPLATE component is used to send an HTML template in response to the receipt of an HTTP request captured by a Route component.\n\n### Input\nIn this case there is no fixed input format.\n\n### Output\nThe output will be the HTML template inserted in the component configuration.",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "HTTP",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "code",
+                  "type": "code",
+                  "description": "",
+                  "label": "Template code",
+                  "validation": {
+                    "required": "Required field"
+                  },
+                  "fragment": null,
+                  "advanced": false,
+                  "options": null,
+                  "value": null
+                }
+              ],
+              "click": null,
+              "icon": "RiHtml5Fill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": false,
+                "code": "Write a piece of code in python to make {data}"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 705,
+            "y": 91
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "6d7374da-5c19-4a89-86d0-73ffc1ddda0a",
+          "position": {
+            "x": 912,
+            "y": 180
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": null,
+          "dragging": null,
+          "data": {
+            "name": "LLM",
+            "events": null,
+            "description": "",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input",
+                "service": "",
+                "to": "output"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Custom",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "model_name",
+                  "type": "select",
+                  "label": "model_name",
+                  "helper": "",
+                  "group": "",
+                  "value": "text-davinci-003",
+                  "description": "Model name to use.",
+                  "validation": null,
+                  "options": [
+                    "ada",
+                    "babbage",
+                    "code-cushman-001",
+                    "code-cushman-002",
+                    "code-davinci-001",
+                    "code-davinci-002",
+                    "curie",
+                    "davinci",
+                    "gpt-3.5-turbo",
+                    "gpt-3.5-turbo-0301",
+                    "gpt-4",
+                    "gpt-4-0314",
+                    "gpt-4-32k",
+                    "gpt-4-32k-0314",
+                    "text-ada-001",
+                    "text-babbage-001",
+                    "text-curie-001",
+                    "text-davinci-002",
+                    "text-davinci-003"
+                  ]
+                },
+                {
+                  "name": "max_tokens",
+                  "type": "number",
+                  "label": "max_tokens",
+                  "helper": "",
+                  "group": "",
+                  "value": 256,
+                  "description": "The maximum number of tokens to generate in the completion. -1 returns as many tokens as possible given the prompt and the models maximal context size.",
+                  "validation": null
+                },
+                {
+                  "name": "temperature",
+                  "type": "number",
+                  "label": "temperature",
+                  "helper": "",
+                  "group": "",
+                  "value": 1,
+                  "description": "How creative the model should be.",
+                  "validation": null
+                },
+                {
+                  "name": "memory",
+                  "type": "boolean",
+                  "label": "memory",
+                  "helper": "",
+                  "group": "",
+                  "value": false,
+                  "description": "",
+                  "validation": null
+                },
+                {
+                  "name": "type",
+                  "type": "dynamic",
+                  "label": "type",
+                  "helper": "",
+                  "group": "",
+                  "value": null,
+                  "description": "",
+                  "validation": null,
+                  "parent": "memory",
+                  "condition": "{parent}",
+                  "dynamicType": "select",
+                  "options": [
+                    "windows",
+                    "summaries",
+                    "vectors"
+                  ],
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "windows_k",
+                  "type": "dynamic",
+                  "label": "k",
+                  "helper": "",
+                  "group": "",
+                  "value": 5,
+                  "description": "Number of interactions to keep in memory.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='windows'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "summaries_max_token_limit",
+                  "type": "dynamic",
+                  "label": "max_token_limit",
+                  "helper": "",
+                  "group": "",
+                  "value": 2000,
+                  "description": "Number of tokens to keep in memory.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='summaries'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "vectors_embedding_size",
+                  "type": "dynamic",
+                  "label": "embedding_size",
+                  "helper": "",
+                  "group": "",
+                  "value": 1536,
+                  "description": "Embedding size.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='vectors'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "vectors_search_kwargs",
+                  "type": "dynamic",
+                  "label": "search_kwargs",
+                  "helper": "",
+                  "group": "",
+                  "value": 1,
+                  "description": "",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='vectors'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                }
+              ],
+              "click": null,
+              "icon": "RiCheckboxBlankCircleFill",
+              "values": {
+                "model_name": "text-davinci-003",
+                "max_tokens": 256,
+                "temperature": 1,
+                "windows_k": 5,
+                "summaries_max_token_limit": 2000,
+                "vectors_embedding_size": 1536,
+                "vectors_search_kwargs": 1
+              }
+            }
+          },
+          "selectable": true,
+          "draggable": true,
+          "__class__": "Node"
+        },
+        {
+          "id": "c5013907-d7c8-4ec5-977c-503ce43331c7",
+          "position": {
+            "x": 1152,
+            "y": 124
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": null,
+          "dragging": null,
+          "data": {
+            "name": "Response",
+            "events": null,
+            "description": "### Description\nThe RESPONSE component is used to set the type of response output that should be sent upon receipt of an HTTP request captured by a **Route** component.\n\n### Input\nIn this case there is no fixed input format.\n\n### Output\nThe component has no output.",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [],
+            "configured": true,
+            "options": {
+              "group": "HTTP",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "type",
+                  "type": "select",
+                  "options": [
+                    "html",
+                    "json"
+                  ],
+                  "label": "Response Type",
+                  "validation": {
+                    "required": "Required field"
+                  }
+                }
+              ],
+              "click": null,
+              "icon": "RiDownloadCloud2Fill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": false,
+                "type": "json"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "__class__": "Node"
+        }
+      ],
+      "edges": [
+        {
+          "id": "reactflow__edge-179249c3-f8ab-4d9a-9739-5b23c1a8299eoutput-4415ecae-d54e-46a3-a8e3-5736abf9f258input",
+          "source": "179249c3-f8ab-4d9a-9739-5b23c1a8299e",
+          "sourceHandle": "output",
+          "target": "4415ecae-d54e-46a3-a8e3-5736abf9f258",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#56A6DC",
+            "stopColor": "#D770AD"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-4415ecae-d54e-46a3-a8e3-5736abf9f258output-14d61185-a8b5-4527-921d-337fbfdcd4f8input",
+          "source": "4415ecae-d54e-46a3-a8e3-5736abf9f258",
+          "sourceHandle": "output",
+          "target": "14d61185-a8b5-4527-921d-337fbfdcd4f8",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#D770AD",
+            "stopColor": "#56A6DC"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-14d61185-a8b5-4527-921d-337fbfdcd4f8output-6d7374da-5c19-4a89-86d0-73ffc1ddda0ainput",
+          "source": "14d61185-a8b5-4527-921d-337fbfdcd4f8",
+          "sourceHandle": "output",
+          "target": "6d7374da-5c19-4a89-86d0-73ffc1ddda0a",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#56A6DC",
+            "stopColor": "#888"
+          },
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-6d7374da-5c19-4a89-86d0-73ffc1ddda0aoutput-c5013907-d7c8-4ec5-977c-503ce43331c7input",
+          "source": "6d7374da-5c19-4a89-86d0-73ffc1ddda0a",
+          "sourceHandle": "output",
+          "target": "c5013907-d7c8-4ec5-977c-503ce43331c7",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#888",
+            "stopColor": "#56A6DC"
+          },
+          "__class__": "Edge"
+        }
+      ],
+      "__class__": "Graph"
+    },
+    "recipes": {
+      "nodes": [
+        {
+          "id": "a74538bc-159d-48e0-9807-52a17be6dbd0",
+          "position": {
+            "x": 411,
+            "y": 112
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Route",
+            "events": null,
+            "description": "### Description\nThe ROUTE component is used to create a web server listening on a specific address and a specific HTTP method.\n\n### Input\nThe component has no input.\n\n### Output\nIn this case there is no fixed output format.",
+            "inputs": [],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "HTTP",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "path",
+                  "type": "path",
+                  "helper": "Insert a path without '/' at start"
+                }
+              ],
+              "click": null,
+              "icon": "RiCloudyFill",
+              "values": {
+                "comment": "",
+                "alias": "Recipe Generator",
+                "debug": false,
+                "path": "recipe"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "__class__": "Node"
+        },
+        {
+          "id": "14581787-1aa4-461f-84cd-55d450d55837",
+          "position": {
+            "x": 683,
+            "y": 85
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Function",
+            "events": null,
+            "description": "### Description\nThe FUNCTION component is used to apply Python code to the input component's. The input can be retrieved using the variable *data*.\n\nTo be able to use data from components of type FUNCTION that are not linked together, the object is set repository.\n\n```python\nrepository.set('value', 5) - this sets the variable value to 5.\nrepository.get('value') - in this way the variable is called value and the value 5 is returned.\n```\n\n### Input\nThe input is used by the component using the variable **data**.\n\n### Output\nThe output coincides with the return of the code defined when the component was created.",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Common",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "propagate",
+                  "type": "boolean",
+                  "label": "Flush at the end"
+                },
+                {
+                  "name": "notify_warnings",
+                  "type": "boolean",
+                  "label": "Notify warnings"
+                },
+                {
+                  "name": "code",
+                  "type": "code",
+                  "description": "A python function that processes the incoming message. \nVariables available are:\n- **data**: the incoming message\n",
+                  "label": "Code",
+                  "validation": {
+                    "required": "Required field"
+                  },
+                  "fragment": null,
+                  "advanced": false,
+                  "options": null,
+                  "value": null
+                }
+              ],
+              "click": null,
+              "icon": "RiCodeSSlashFill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": false,
+                "propagate": true,
+                "notify_warnings": true,
+                "code": "return data.args.get('text')"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 683,
+            "y": 85
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "fb47d372-8b38-4fb1-8173-f1347932a62d",
+          "position": {
+            "x": 883,
+            "y": 147
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Template",
+            "events": null,
+            "description": "### Description\nThe TEMPLATE component is used to send an HTML template in response to the receipt of an HTTP request captured by a Route component.\n\n### Input\nIn this case there is no fixed input format.\n\n### Output\nThe output will be the HTML template inserted in the component configuration.",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "HTTP",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "code",
+                  "type": "code",
+                  "description": "",
+                  "label": "Template code",
+                  "validation": {
+                    "required": "Required field"
+                  },
+                  "fragment": null,
+                  "advanced": false,
+                  "options": null,
+                  "value": null
+                }
+              ],
+              "click": null,
+              "icon": "RiHtml5Fill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": false,
+                "code": "what is a famous dish from {data}?"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 883,
+            "y": 147
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "88866955-38ca-4c64-92ce-9a4806306e2f",
+          "position": {
+            "x": 1116,
+            "y": 86
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "LLM",
+            "events": null,
+            "description": "",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input",
+                "service": "",
+                "to": "output"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Custom",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "model_name",
+                  "type": "select",
+                  "label": "model_name",
+                  "helper": "",
+                  "group": "",
+                  "value": "text-davinci-003",
+                  "description": "Model name to use.",
+                  "validation": null,
+                  "options": [
+                    "ada",
+                    "babbage",
+                    "code-cushman-001",
+                    "code-cushman-002",
+                    "code-davinci-001",
+                    "code-davinci-002",
+                    "curie",
+                    "davinci",
+                    "gpt-3.5-turbo",
+                    "gpt-3.5-turbo-0301",
+                    "gpt-4",
+                    "gpt-4-0314",
+                    "gpt-4-32k",
+                    "gpt-4-32k-0314",
+                    "text-ada-001",
+                    "text-babbage-001",
+                    "text-curie-001",
+                    "text-davinci-002",
+                    "text-davinci-003"
+                  ]
+                },
+                {
+                  "name": "max_tokens",
+                  "type": "number",
+                  "label": "max_tokens",
+                  "helper": "",
+                  "group": "",
+                  "value": 256,
+                  "description": "The maximum number of tokens to generate in the completion. -1 returns as many tokens as possible given the prompt and the models maximal context size.",
+                  "validation": null
+                },
+                {
+                  "name": "temperature",
+                  "type": "number",
+                  "label": "temperature",
+                  "helper": "",
+                  "group": "",
+                  "value": 1,
+                  "description": "How creative the model should be.",
+                  "validation": null
+                },
+                {
+                  "name": "memory",
+                  "type": "boolean",
+                  "label": "memory",
+                  "helper": "",
+                  "group": "",
+                  "value": false,
+                  "description": "",
+                  "validation": null
+                },
+                {
+                  "name": "type",
+                  "type": "dynamic",
+                  "label": "type",
+                  "helper": "",
+                  "group": "",
+                  "value": null,
+                  "description": "",
+                  "validation": null,
+                  "parent": "memory",
+                  "condition": "{parent}",
+                  "dynamicType": "select",
+                  "options": [
+                    "windows",
+                    "summaries",
+                    "vectors"
+                  ],
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "windows_k",
+                  "type": "dynamic",
+                  "label": "k",
+                  "helper": "",
+                  "group": "",
+                  "value": 5,
+                  "description": "Number of interactions to keep in memory.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='windows'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "summaries_max_token_limit",
+                  "type": "dynamic",
+                  "label": "max_token_limit",
+                  "helper": "",
+                  "group": "",
+                  "value": 2000,
+                  "description": "Number of tokens to keep in memory.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='summaries'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "vectors_embedding_size",
+                  "type": "dynamic",
+                  "label": "embedding_size",
+                  "helper": "",
+                  "group": "",
+                  "value": 1536,
+                  "description": "Embedding size.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='vectors'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "vectors_search_kwargs",
+                  "type": "dynamic",
+                  "label": "search_kwargs",
+                  "helper": "",
+                  "group": "",
+                  "value": 1,
+                  "description": "",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='vectors'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                }
+              ],
+              "click": null,
+              "icon": "RiCheckboxBlankCircleFill",
+              "values": {
+                "model_name": "text-davinci-003",
+                "max_tokens": 256,
+                "temperature": 1,
+                "windows_k": 5,
+                "summaries_max_token_limit": 2000,
+                "vectors_embedding_size": 1536,
+                "vectors_search_kwargs": 1
+              }
+            }
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 1116,
+            "y": 86
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "2bce2b21-78bc-4f60-9378-8d07be1b8f36",
+          "position": {
+            "x": 1338,
+            "y": 259
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Template",
+            "events": null,
+            "description": "### Description\nThe TEMPLATE component is used to send an HTML template in response to the receipt of an HTTP request captured by a Route component.\n\n### Input\nIn this case there is no fixed input format.\n\n### Output\nThe output will be the HTML template inserted in the component configuration.",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "HTTP",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "code",
+                  "type": "code",
+                  "description": "",
+                  "label": "Template code",
+                  "validation": {
+                    "required": "Required field"
+                  },
+                  "fragment": null,
+                  "advanced": false,
+                  "options": null,
+                  "value": null
+                }
+              ],
+              "click": null,
+              "icon": "RiHtml5Fill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": false,
+                "code": "Give me a recipe for {data}."
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "__class__": "Node"
+        },
+        {
+          "id": "2f59a08a-592b-4fca-a7d5-96182d4a2ded",
+          "position": {
+            "x": 1558,
+            "y": 212
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "LLM",
+            "events": null,
+            "description": "",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input",
+                "service": "",
+                "to": "output"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Custom",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "model_name",
+                  "type": "select",
+                  "label": "model_name",
+                  "helper": "",
+                  "group": "",
+                  "value": "text-davinci-003",
+                  "description": "Model name to use.",
+                  "validation": null,
+                  "options": [
+                    "ada",
+                    "babbage",
+                    "code-cushman-001",
+                    "code-cushman-002",
+                    "code-davinci-001",
+                    "code-davinci-002",
+                    "curie",
+                    "davinci",
+                    "gpt-3.5-turbo",
+                    "gpt-3.5-turbo-0301",
+                    "gpt-4",
+                    "gpt-4-0314",
+                    "gpt-4-32k",
+                    "gpt-4-32k-0314",
+                    "text-ada-001",
+                    "text-babbage-001",
+                    "text-curie-001",
+                    "text-davinci-002",
+                    "text-davinci-003"
+                  ]
+                },
+                {
+                  "name": "max_tokens",
+                  "type": "number",
+                  "label": "max_tokens",
+                  "helper": "",
+                  "group": "",
+                  "value": 256,
+                  "description": "The maximum number of tokens to generate in the completion. -1 returns as many tokens as possible given the prompt and the models maximal context size.",
+                  "validation": null
+                },
+                {
+                  "name": "temperature",
+                  "type": "number",
+                  "label": "temperature",
+                  "helper": "",
+                  "group": "",
+                  "value": 1,
+                  "description": "How creative the model should be.",
+                  "validation": null
+                },
+                {
+                  "name": "memory",
+                  "type": "boolean",
+                  "label": "memory",
+                  "helper": "",
+                  "group": "",
+                  "value": false,
+                  "description": "",
+                  "validation": null
+                },
+                {
+                  "name": "type",
+                  "type": "dynamic",
+                  "label": "type",
+                  "helper": "",
+                  "group": "",
+                  "value": null,
+                  "description": "",
+                  "validation": null,
+                  "parent": "memory",
+                  "condition": "{parent}",
+                  "dynamicType": "select",
+                  "options": [
+                    "windows",
+                    "summaries",
+                    "vectors"
+                  ],
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "windows_k",
+                  "type": "dynamic",
+                  "label": "k",
+                  "helper": "",
+                  "group": "",
+                  "value": 5,
+                  "description": "Number of interactions to keep in memory.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='windows'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "summaries_max_token_limit",
+                  "type": "dynamic",
+                  "label": "max_token_limit",
+                  "helper": "",
+                  "group": "",
+                  "value": 2000,
+                  "description": "Number of tokens to keep in memory.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='summaries'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "vectors_embedding_size",
+                  "type": "dynamic",
+                  "label": "embedding_size",
+                  "helper": "",
+                  "group": "",
+                  "value": 1536,
+                  "description": "Embedding size.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='vectors'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "vectors_search_kwargs",
+                  "type": "dynamic",
+                  "label": "search_kwargs",
+                  "helper": "",
+                  "group": "",
+                  "value": 1,
+                  "description": "",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='vectors'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                }
+              ],
+              "click": null,
+              "icon": "RiCheckboxBlankCircleFill",
+              "values": {
+                "model_name": "text-davinci-003",
+                "max_tokens": 256,
+                "temperature": 1,
+                "windows_k": 5,
+                "summaries_max_token_limit": 2000,
+                "vectors_embedding_size": 1536,
+                "vectors_search_kwargs": 1
+              }
+            }
+          },
+          "selectable": true,
+          "draggable": true,
+          "__class__": "Node"
+        },
+        {
+          "id": "2f4616d9-548f-4d75-bb38-ec1b9c169740",
+          "position": {
+            "x": 1796,
+            "y": 86
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Merge",
+            "events": null,
+            "description": "### Description\nThe MERGE component is used to merge the results of multiple components.\n\n### Input\nThe number of inputs is defined using the parameter *Inputs*.\n\n### Output\nIn output are returned dictionaries that have as keys the Inputs defined at the creation of the component and as values the elements received in input from the connected components.",
+            "inputs": [
+              {
+                "label": "dish",
+                "id": "b995750f-b7e6-4ffd-a5c7-08f00efcd83e"
+              },
+              {
+                "label": "recipe",
+                "id": "c669d055-2dae-4f78-839d-21bef75d6a42"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Common",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "inputs",
+                  "label": "Inputs",
+                  "type": "multiKeyValue",
+                  "validation": {
+                    "required": "Required field"
+                  },
+                  "fields": [
+                    {
+                      "name": "label",
+                      "placeholder": "Input",
+                      "validation": {
+                        "required": "Required field"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "click": null,
+              "icon": "RiGitMergeFill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": true,
+                "inputs": [
+                  {
+                    "label": "dish",
+                    "id": "b995750f-b7e6-4ffd-a5c7-08f00efcd83e"
+                  },
+                  {
+                    "label": "recipe",
+                    "id": "c669d055-2dae-4f78-839d-21bef75d6a42"
+                  }
+                ]
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "__class__": "Node"
+        },
+        {
+          "id": "2591c1b0-7523-4d41-846c-a005ab67ac91",
+          "position": {
+            "x": 2067,
+            "y": 30
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Response",
+            "events": null,
+            "description": "### Description\nThe RESPONSE component is used to set the type of response output that should be sent upon receipt of an HTTP request captured by a **Route** component.\n\n### Input\nIn this case there is no fixed input format.\n\n### Output\nThe component has no output.",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [],
+            "configured": true,
+            "options": {
+              "group": "HTTP",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "type",
+                  "type": "select",
+                  "options": [
+                    "html",
+                    "json"
+                  ],
+                  "label": "Response Type",
+                  "validation": {
+                    "required": "Required field"
+                  }
+                }
+              ],
+              "click": null,
+              "icon": "RiDownloadCloud2Fill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": false,
+                "type": "json"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 2067,
+            "y": 30
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "37c4046b-6e44-4254-b6a6-79f4260855db",
+          "position": {
+            "x": 2092,
+            "y": 191
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 80,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "pname": "mongo_extension",
+            "name": "MongoDB",
+            "events": null,
+            "description": "",
+            "inputs": [
+              {
+                "id": "insert",
+                "label": "insert",
+                "service": "",
+                "to": "output",
+                "closed": true
+              },
+              {
+                "id": "query",
+                "label": "query",
+                "service": "query",
+                "to": "query_output"
+              },
+              {
+                "id": "list",
+                "label": "list",
+                "service": "list",
+                "to": "list_output"
+              },
+              {
+                "id": "delete",
+                "label": "delete",
+                "service": "delete",
+                "to": "delete_output"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              },
+              {
+                "id": "query_output",
+                "label": "query_output"
+              },
+              {
+                "id": "list_output",
+                "label": "list_output"
+              },
+              {
+                "id": "delete_output",
+                "label": "delete_output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Custom",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "collection",
+                  "type": "text",
+                  "label": "Collection name",
+                  "helper": "Specify the mongo collection name"
+                },
+                {
+                  "name": "stream",
+                  "type": "boolean",
+                  "label": "Stream or not results",
+                  "helper": "Stream "
+                }
+              ],
+              "click": null,
+              "icon": null,
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": false,
+                "collection": "recipes",
+                "stream": true
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 2092,
+            "y": 191
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "d4a9f477-c4be-47b3-8dd0-66d1e31fb407",
+          "position": {
+            "x": 460,
+            "y": 294
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 88,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Array",
+            "events": null,
+            "description": "### Description\nThe ARRAY component is used as an iterator. The array to iterate over can be defined with the parameter value or depend on the input received.\n\n### Input\nIn case an input is given, it will correspond to the data to iterate on.\n\n### Output\nThe number of outputs depends on the length of what is passed in input or defined in the parameter value. The output will consist of iterating element by element.",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Common",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "value",
+                  "type": "text",
+                  "description": "Python or json code that evaluates to a list or iterable",
+                  "label": "value",
+                  "validation": null,
+                  "fragment": null,
+                  "advanced": false,
+                  "options": null,
+                  "value": null
+                },
+                {
+                  "name": "propagate",
+                  "type": "boolean",
+                  "label": "Flush at the end"
+                },
+                {
+                  "name": "flatten",
+                  "type": "boolean",
+                  "label": "Flatten the array recursively"
+                }
+              ],
+              "click": "Send message",
+              "icon": "RiBracketsFill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": false,
+                "value": "[\"Rome\",\"Mumbai\",\"Paris\"]",
+                "propagate": true,
+                "flatten": false
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 460,
+            "y": 294
+          },
+          "__class__": "Node"
+        }
+      ],
+      "edges": [
+        {
+          "id": "reactflow__edge-a74538bc-159d-48e0-9807-52a17be6dbd0output-14581787-1aa4-461f-84cd-55d450d55837input",
+          "source": "a74538bc-159d-48e0-9807-52a17be6dbd0",
+          "sourceHandle": "output",
+          "target": "14581787-1aa4-461f-84cd-55d450d55837",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#56A6DC",
+            "stopColor": "#D770AD"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-14581787-1aa4-461f-84cd-55d450d55837output-fb47d372-8b38-4fb1-8173-f1347932a62dinput",
+          "source": "14581787-1aa4-461f-84cd-55d450d55837",
+          "sourceHandle": "output",
+          "target": "fb47d372-8b38-4fb1-8173-f1347932a62d",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#D770AD",
+            "stopColor": "#56A6DC"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-fb47d372-8b38-4fb1-8173-f1347932a62doutput-88866955-38ca-4c64-92ce-9a4806306e2finput",
+          "source": "fb47d372-8b38-4fb1-8173-f1347932a62d",
+          "sourceHandle": "output",
+          "target": "88866955-38ca-4c64-92ce-9a4806306e2f",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#56A6DC",
+            "stopColor": "#888"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-88866955-38ca-4c64-92ce-9a4806306e2foutput-2bce2b21-78bc-4f60-9378-8d07be1b8f36input",
+          "source": "88866955-38ca-4c64-92ce-9a4806306e2f",
+          "sourceHandle": "output",
+          "target": "2bce2b21-78bc-4f60-9378-8d07be1b8f36",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#888",
+            "stopColor": "#56A6DC"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-2bce2b21-78bc-4f60-9378-8d07be1b8f36output-2f59a08a-592b-4fca-a7d5-96182d4a2dedinput",
+          "source": "2bce2b21-78bc-4f60-9378-8d07be1b8f36",
+          "sourceHandle": "output",
+          "target": "2f59a08a-592b-4fca-a7d5-96182d4a2ded",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#56A6DC",
+            "stopColor": "#888"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-2f59a08a-592b-4fca-a7d5-96182d4a2dedoutput-2f4616d9-548f-4d75-bb38-ec1b9c169740c669d055-2dae-4f78-839d-21bef75d6a42",
+          "source": "2f59a08a-592b-4fca-a7d5-96182d4a2ded",
+          "sourceHandle": "output",
+          "target": "2f4616d9-548f-4d75-bb38-ec1b9c169740",
+          "targetHandle": "c669d055-2dae-4f78-839d-21bef75d6a42",
+          "data": {
+            "startColor": "#888",
+            "stopColor": "#D770AD"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-88866955-38ca-4c64-92ce-9a4806306e2foutput-2f4616d9-548f-4d75-bb38-ec1b9c169740b995750f-b7e6-4ffd-a5c7-08f00efcd83e",
+          "source": "88866955-38ca-4c64-92ce-9a4806306e2f",
+          "sourceHandle": "output",
+          "target": "2f4616d9-548f-4d75-bb38-ec1b9c169740",
+          "targetHandle": "b995750f-b7e6-4ffd-a5c7-08f00efcd83e",
+          "data": {
+            "startColor": "#888",
+            "stopColor": "#D770AD"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-2f4616d9-548f-4d75-bb38-ec1b9c169740output-2591c1b0-7523-4d41-846c-a005ab67ac91input",
+          "source": "2f4616d9-548f-4d75-bb38-ec1b9c169740",
+          "sourceHandle": "output",
+          "target": "2591c1b0-7523-4d41-846c-a005ab67ac91",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#D770AD",
+            "stopColor": "#56A6DC"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-2f4616d9-548f-4d75-bb38-ec1b9c169740output-37c4046b-6e44-4254-b6a6-79f4260855dbinsert",
+          "source": "2f4616d9-548f-4d75-bb38-ec1b9c169740",
+          "sourceHandle": "output",
+          "target": "37c4046b-6e44-4254-b6a6-79f4260855db",
+          "targetHandle": "insert",
+          "data": {
+            "startColor": "#D770AD",
+            "stopColor": "#888"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-d4a9f477-c4be-47b3-8dd0-66d1e31fb407output-14581787-1aa4-461f-84cd-55d450d55837input",
+          "source": "d4a9f477-c4be-47b3-8dd0-66d1e31fb407",
+          "sourceHandle": "output",
+          "target": "14581787-1aa4-461f-84cd-55d450d55837",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#D770AD",
+            "stopColor": "#D770AD"
+          },
+          "__class__": "Edge"
+        }
+      ],
+      "__class__": "Graph"
+    },
+    "summary": {
+      "nodes": [
+        {
+          "id": "21de4ec0-d128-4c9a-96c7-dfaffe1859cf",
+          "position": {
+            "x": 312,
+            "y": -38
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Route",
+            "events": null,
+            "description": "### Description\nThe ROUTE component is used to create a web server listening on a specific address and a specific HTTP method.\n\n### Input\nThe component has no input.\n\n### Output\nIn this case there is no fixed output format.",
+            "inputs": [],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "HTTP",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "path",
+                  "type": "path",
+                  "helper": "Insert a path without '/' at start"
+                }
+              ],
+              "click": null,
+              "icon": "RiCloudyFill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": false,
+                "path": "summarize"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "__class__": "Node"
+        },
+        {
+          "id": "b18bace1-64ac-43df-b019-052f89fcaa16",
+          "position": {
+            "x": 518,
+            "y": 30
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Function",
+            "events": null,
+            "description": "### Description\nThe FUNCTION component is used to apply Python code to the input component's. The input can be retrieved using the variable *data*.\n\nTo be able to use data from components of type FUNCTION that are not linked together, the object is set repository.\n\n```python\nrepository.set('value', 5) - this sets the variable value to 5.\nrepository.get('value') - in this way the variable is called value and the value 5 is returned.\n```\n\n### Input\nThe input is used by the component using the variable **data**.\n\n### Output\nThe output coincides with the return of the code defined when the component was created.",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Common",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "propagate",
+                  "type": "boolean",
+                  "label": "Flush at the end"
+                },
+                {
+                  "name": "notify_warnings",
+                  "type": "boolean",
+                  "label": "Notify warnings"
+                },
+                {
+                  "name": "code",
+                  "type": "code",
+                  "description": "A python function that processes the incoming message. \nVariables available are:\n- **data**: the incoming message\n",
+                  "label": "Code",
+                  "validation": {
+                    "required": "Required field"
+                  },
+                  "fragment": null,
+                  "advanced": false,
+                  "options": null,
+                  "value": null
+                }
+              ],
+              "click": null,
+              "icon": "RiCodeSSlashFill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": false,
+                "propagate": true,
+                "notify_warnings": true,
+                "code": "url = data.args.get('url')\nreturn Parameters(url=url,data=None)"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 518,
+            "y": 30
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "617f193b-4ec0-4c11-be10-1434e5a76f65",
+          "position": {
+            "x": 749,
+            "y": -62
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 164,
+          "height": 88,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "HTTP Request",
+            "events": null,
+            "description": "### Description\nThe HTTP REQUEST component is used to make HTTP requests in the web to microservices external to the LOKO AI platform.\n\n### Input\nInput is only required for HTTP methods that have or require a body (PUT/PATCH/POST). In this case there is no predefined input format.\n\n### Output\nIn this case there is no fixed output format.",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "HTTP",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "type": "text",
+                  "name": "url",
+                  "label": "URL",
+                  "validation": {
+                    "required": "Required field"
+                  }
+                },
+                {
+                  "name": "method",
+                  "label": "Method",
+                  "type": "select",
+                  "options": [
+                    "GET",
+                    "POST",
+                    "PUT",
+                    "DELETE",
+                    "PATCH"
+                  ],
+                  "validation": {
+                    "required": "Required field"
+                  }
+                },
+                {
+                  "name": "accept",
+                  "label": "Accept",
+                  "type": "select",
+                  "options": [
+                    "text",
+                    "json",
+                    "file"
+                  ],
+                  "validation": {
+                    "required": "Required field"
+                  }
+                },
+                {
+                  "name": "query",
+                  "label": "Query params",
+                  "type": "multiKeyValue",
+                  "fields": [
+                    {
+                      "name": "key",
+                      "placeholder": "Key",
+                      "validation": {
+                        "required": "Required field"
+                      }
+                    },
+                    {
+                      "name": "value",
+                      "placeholder": "Value",
+                      "validation": {
+                        "required": "Required field"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "click": "Launch request",
+              "icon": "RiUploadCloud2Fill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": false,
+                "url": "dddddd",
+                "method": "GET",
+                "accept": "text"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 749,
+            "y": -62
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "3d655b23-1491-4bc7-9034-007801a0cf48",
+          "position": {
+            "x": 999,
+            "y": 33
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "HTML2Text",
+            "events": null,
+            "description": "",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input",
+                "service": "html2text",
+                "to": "output"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Custom",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                }
+              ],
+              "click": null,
+              "icon": "RiCheckboxBlankCircleFill",
+              "values": {}
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 999,
+            "y": 33
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "0a397d49-da9d-4504-bae5-ea3b6ea2c0e3",
+          "position": {
+            "x": 1238,
+            "y": -43
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "LLM Summary",
+            "events": null,
+            "description": "",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input",
+                "service": "summary_service",
+                "to": "output"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Custom",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "chunk_size",
+                  "type": "number",
+                  "label": "chunk_size",
+                  "helper": "",
+                  "group": "",
+                  "value": 700,
+                  "description": "",
+                  "validation": null
+                },
+                {
+                  "name": "chunk_overlap",
+                  "type": "number",
+                  "label": "chunk_overlap",
+                  "helper": "",
+                  "group": "",
+                  "value": 70,
+                  "description": "",
+                  "validation": null
+                }
+              ],
+              "click": null,
+              "icon": "RiCheckboxBlankCircleFill",
+              "values": {
+                "chunk_size": 700,
+                "chunk_overlap": 70,
+                "debug": true
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "__class__": "Node"
+        },
+        {
+          "id": "dd7a00a8-ef6c-4143-bc89-5ba275577116",
+          "position": {
+            "x": 1499,
+            "y": 47
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": null,
+          "dragging": null,
+          "data": {
+            "name": "Response",
+            "events": null,
+            "description": "### Description\nThe RESPONSE component is used to set the type of response output that should be sent upon receipt of an HTTP request captured by a **Route** component.\n\n### Input\nIn this case there is no fixed input format.\n\n### Output\nThe component has no output.",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [],
+            "configured": true,
+            "options": {
+              "group": "HTTP",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "type",
+                  "type": "select",
+                  "options": [
+                    "html",
+                    "json"
+                  ],
+                  "label": "Response Type",
+                  "validation": {
+                    "required": "Required field"
+                  }
+                }
+              ],
+              "click": null,
+              "icon": "RiDownloadCloud2Fill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": false,
+                "type": "json"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "__class__": "Node"
+        }
+      ],
+      "edges": [
+        {
+          "id": "reactflow__edge-21de4ec0-d128-4c9a-96c7-dfaffe1859cfoutput-b18bace1-64ac-43df-b019-052f89fcaa16input",
+          "source": "21de4ec0-d128-4c9a-96c7-dfaffe1859cf",
+          "sourceHandle": "output",
+          "target": "b18bace1-64ac-43df-b019-052f89fcaa16",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#56A6DC",
+            "stopColor": "#D770AD"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-b18bace1-64ac-43df-b019-052f89fcaa16output-617f193b-4ec0-4c11-be10-1434e5a76f65input",
+          "source": "b18bace1-64ac-43df-b019-052f89fcaa16",
+          "sourceHandle": "output",
+          "target": "617f193b-4ec0-4c11-be10-1434e5a76f65",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#D770AD",
+            "stopColor": "#56A6DC"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-617f193b-4ec0-4c11-be10-1434e5a76f65output-3d655b23-1491-4bc7-9034-007801a0cf48input",
+          "source": "617f193b-4ec0-4c11-be10-1434e5a76f65",
+          "sourceHandle": "output",
+          "target": "3d655b23-1491-4bc7-9034-007801a0cf48",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#56A6DC",
+            "stopColor": "#888"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-3d655b23-1491-4bc7-9034-007801a0cf48output-0a397d49-da9d-4504-bae5-ea3b6ea2c0e3input",
+          "source": "3d655b23-1491-4bc7-9034-007801a0cf48",
+          "sourceHandle": "output",
+          "target": "0a397d49-da9d-4504-bae5-ea3b6ea2c0e3",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#888",
+            "stopColor": "#888"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-0a397d49-da9d-4504-bae5-ea3b6ea2c0e3output-dd7a00a8-ef6c-4143-bc89-5ba275577116input",
+          "source": "0a397d49-da9d-4504-bae5-ea3b6ea2c0e3",
+          "sourceHandle": "output",
+          "target": "dd7a00a8-ef6c-4143-bc89-5ba275577116",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#888",
+            "stopColor": "#56A6DC"
+          },
+          "__class__": "Edge"
+        }
+      ],
+      "__class__": "Graph"
+    },
+    "memory": {
+      "nodes": [
+        {
+          "id": "d567d059-78d8-4eb5-9743-ca4bba0c555a",
+          "position": {
+            "x": 410,
+            "y": 144
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Trigger",
+            "events": null,
+            "description": "### Description\nThe TRIGGER component is used to start streams.\n\n### Output\nThe parameter Type can be set as a **String** or an **Object**. The parameter Value, on the other hand, defines the actual output of the component.",
+            "inputs": [],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Common",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "type",
+                  "type": "select",
+                  "description": "The type of data",
+                  "label": "Type",
+                  "validation": {
+                    "required": "Required field"
+                  },
+                  "fragment": null,
+                  "advanced": false,
+                  "options": [
+                    "String",
+                    "Object"
+                  ],
+                  "value": null
+                },
+                {
+                  "name": "value",
+                  "type": "dynamic",
+                  "dynamicType": {
+                    "String": "area",
+                    "Object": "code"
+                  },
+                  "parent": "type",
+                  "label": "Value",
+                  "validation": {
+                    "required": "Required field"
+                  }
+                }
+              ],
+              "click": "Send message",
+              "icon": "RiPlayFill",
+              "values": {
+                "comment": "",
+                "alias": "my name",
+                "debug": true,
+                "type": "String",
+                "value": "Hello, my name is Cecilia"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "__class__": "Node"
+        },
+        {
+          "id": "fa111a07-5b2c-4424-92be-8003a3881a9a",
+          "position": {
+            "x": 619,
+            "y": 210
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "LLM",
+            "events": null,
+            "description": "",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input",
+                "service": "",
+                "to": "output"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Custom",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "model_name",
+                  "type": "select",
+                  "label": "model_name",
+                  "helper": "",
+                  "group": "",
+                  "value": "text-davinci-003",
+                  "description": "Model name to use.",
+                  "validation": null,
+                  "options": [
+                    "ada",
+                    "babbage",
+                    "code-cushman-001",
+                    "code-cushman-002",
+                    "code-davinci-001",
+                    "code-davinci-002",
+                    "curie",
+                    "davinci",
+                    "gpt-3.5-turbo",
+                    "gpt-3.5-turbo-0301",
+                    "gpt-4",
+                    "gpt-4-0314",
+                    "gpt-4-32k",
+                    "gpt-4-32k-0314",
+                    "text-ada-001",
+                    "text-babbage-001",
+                    "text-curie-001",
+                    "text-davinci-002",
+                    "text-davinci-003"
+                  ]
+                },
+                {
+                  "name": "max_tokens",
+                  "type": "number",
+                  "label": "max_tokens",
+                  "helper": "",
+                  "group": "",
+                  "value": 256,
+                  "description": "The maximum number of tokens to generate in the completion. -1 returns as many tokens as possible given the prompt and the models maximal context size.",
+                  "validation": null
+                },
+                {
+                  "name": "temperature",
+                  "type": "number",
+                  "label": "temperature",
+                  "helper": "",
+                  "group": "",
+                  "value": 1,
+                  "description": "How creative the model should be.",
+                  "validation": null
+                },
+                {
+                  "name": "memory",
+                  "type": "boolean",
+                  "label": "memory",
+                  "helper": "",
+                  "group": "",
+                  "value": false,
+                  "description": "",
+                  "validation": null
+                },
+                {
+                  "name": "type",
+                  "type": "dynamic",
+                  "label": "type",
+                  "helper": "",
+                  "group": "",
+                  "value": null,
+                  "description": "",
+                  "validation": null,
+                  "parent": "memory",
+                  "condition": "{parent}",
+                  "dynamicType": "select",
+                  "options": [
+                    "windows",
+                    "summaries",
+                    "vectors"
+                  ],
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "windows_k",
+                  "type": "dynamic",
+                  "label": "k",
+                  "helper": "",
+                  "group": "",
+                  "value": 5,
+                  "description": "Number of interactions to keep in memory.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='windows'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "summaries_max_token_limit",
+                  "type": "dynamic",
+                  "label": "max_token_limit",
+                  "helper": "",
+                  "group": "",
+                  "value": 2000,
+                  "description": "Number of tokens to keep in memory.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='summaries'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "vectors_embedding_size",
+                  "type": "dynamic",
+                  "label": "embedding_size",
+                  "helper": "",
+                  "group": "",
+                  "value": 1536,
+                  "description": "Embedding size.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='vectors'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "vectors_search_kwargs",
+                  "type": "dynamic",
+                  "label": "search_kwargs",
+                  "helper": "",
+                  "group": "",
+                  "value": 1,
+                  "description": "",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='vectors'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                }
+              ],
+              "click": null,
+              "icon": "RiCheckboxBlankCircleFill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": true,
+                "model_name": "text-davinci-003",
+                "max_tokens": "256",
+                "temperature": "1",
+                "memory": true,
+                "type": "windows",
+                "windows_k": "5"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 619,
+            "y": 210
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "ec67663c-6f08-4b3d-92d3-13c0ffd9e7ce",
+          "position": {
+            "x": 815,
+            "y": 149
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Function",
+            "events": null,
+            "description": "### Description\nThe FUNCTION component is used to apply Python code to the input component's. The input can be retrieved using the variable *data*.\n\nTo be able to use data from components of type FUNCTION that are not linked together, the object is set repository.\n\n```python\nrepository.set('value', 5) - this sets the variable value to 5.\nrepository.get('value') - in this way the variable is called value and the value 5 is returned.\n```\n\n### Input\nThe input is used by the component using the variable **data**.\n\n### Output\nThe output coincides with the return of the code defined when the component was created.",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Common",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "propagate",
+                  "type": "boolean",
+                  "label": "Flush at the end"
+                },
+                {
+                  "name": "notify_warnings",
+                  "type": "boolean",
+                  "label": "Notify warnings"
+                },
+                {
+                  "name": "code",
+                  "type": "code",
+                  "description": "A python function that processes the incoming message. \nVariables available are:\n- **data**: the incoming message\n",
+                  "label": "Code",
+                  "validation": {
+                    "required": "Required field"
+                  },
+                  "fragment": null,
+                  "advanced": false,
+                  "options": null,
+                  "value": null
+                }
+              ],
+              "click": null,
+              "icon": "RiCodeSSlashFill",
+              "values": {
+                "comment": "",
+                "alias": "his name",
+                "debug": true,
+                "propagate": true,
+                "notify_warnings": true,
+                "code": "return \"and what's your name?\""
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 815,
+            "y": 149
+          },
+          "__class__": "Node"
+        },
+        {
+          "id": "ffef9299-9e4c-4db2-bc38-1e1122d56a21",
+          "position": {
+            "x": 1044,
+            "y": 228
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "LLM",
+            "events": null,
+            "description": "",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input",
+                "service": "",
+                "to": "output"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Custom",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "model_name",
+                  "type": "select",
+                  "label": "model_name",
+                  "helper": "",
+                  "group": "",
+                  "value": "text-davinci-003",
+                  "description": "Model name to use.",
+                  "validation": null,
+                  "options": [
+                    "ada",
+                    "babbage",
+                    "code-cushman-001",
+                    "code-cushman-002",
+                    "code-davinci-001",
+                    "code-davinci-002",
+                    "curie",
+                    "davinci",
+                    "gpt-3.5-turbo",
+                    "gpt-3.5-turbo-0301",
+                    "gpt-4",
+                    "gpt-4-0314",
+                    "gpt-4-32k",
+                    "gpt-4-32k-0314",
+                    "text-ada-001",
+                    "text-babbage-001",
+                    "text-curie-001",
+                    "text-davinci-002",
+                    "text-davinci-003"
+                  ]
+                },
+                {
+                  "name": "max_tokens",
+                  "type": "number",
+                  "label": "max_tokens",
+                  "helper": "",
+                  "group": "",
+                  "value": 256,
+                  "description": "The maximum number of tokens to generate in the completion. -1 returns as many tokens as possible given the prompt and the models maximal context size.",
+                  "validation": null
+                },
+                {
+                  "name": "temperature",
+                  "type": "number",
+                  "label": "temperature",
+                  "helper": "",
+                  "group": "",
+                  "value": 1,
+                  "description": "How creative the model should be.",
+                  "validation": null
+                },
+                {
+                  "name": "memory",
+                  "type": "boolean",
+                  "label": "memory",
+                  "helper": "",
+                  "group": "",
+                  "value": false,
+                  "description": "",
+                  "validation": null
+                },
+                {
+                  "name": "type",
+                  "type": "dynamic",
+                  "label": "type",
+                  "helper": "",
+                  "group": "",
+                  "value": null,
+                  "description": "",
+                  "validation": null,
+                  "parent": "memory",
+                  "condition": "{parent}",
+                  "dynamicType": "select",
+                  "options": [
+                    "windows",
+                    "summaries",
+                    "vectors"
+                  ],
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "windows_k",
+                  "type": "dynamic",
+                  "label": "k",
+                  "helper": "",
+                  "group": "",
+                  "value": 5,
+                  "description": "Number of interactions to keep in memory.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='windows'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "summaries_max_token_limit",
+                  "type": "dynamic",
+                  "label": "max_token_limit",
+                  "helper": "",
+                  "group": "",
+                  "value": 2000,
+                  "description": "Number of tokens to keep in memory.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='summaries'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "vectors_embedding_size",
+                  "type": "dynamic",
+                  "label": "embedding_size",
+                  "helper": "",
+                  "group": "",
+                  "value": 1536,
+                  "description": "Embedding size.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='vectors'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "vectors_search_kwargs",
+                  "type": "dynamic",
+                  "label": "search_kwargs",
+                  "helper": "",
+                  "group": "",
+                  "value": 1,
+                  "description": "",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='vectors'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                }
+              ],
+              "click": null,
+              "icon": "RiCheckboxBlankCircleFill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": true,
+                "model_name": "text-davinci-003",
+                "max_tokens": "256",
+                "temperature": "1",
+                "memory": true,
+                "type": "windows",
+                "windows_k": "5"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "__class__": "Node"
+        },
+        {
+          "id": "ef14c5d0-af11-4393-96b0-e3cc214c1807",
+          "position": {
+            "x": 1278,
+            "y": 158
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Function",
+            "events": null,
+            "description": "### Description\nThe FUNCTION component is used to apply Python code to the input component's. The input can be retrieved using the variable *data*.\n\nTo be able to use data from components of type FUNCTION that are not linked together, the object is set repository.\n\n```python\nrepository.set('value', 5) - this sets the variable value to 5.\nrepository.get('value') - in this way the variable is called value and the value 5 is returned.\n```\n\n### Input\nThe input is used by the component using the variable **data**.\n\n### Output\nThe output coincides with the return of the code defined when the component was created.",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Common",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "propagate",
+                  "type": "boolean",
+                  "label": "Flush at the end"
+                },
+                {
+                  "name": "notify_warnings",
+                  "type": "boolean",
+                  "label": "Notify warnings"
+                },
+                {
+                  "name": "code",
+                  "type": "code",
+                  "description": "A python function that processes the incoming message. \nVariables available are:\n- **data**: the incoming message\n",
+                  "label": "Code",
+                  "validation": {
+                    "required": "Required field"
+                  },
+                  "fragment": null,
+                  "advanced": false,
+                  "options": null,
+                  "value": null
+                }
+              ],
+              "click": null,
+              "icon": "RiCodeSSlashFill",
+              "values": {
+                "comment": "",
+                "alias": "ask for my name again",
+                "debug": true,
+                "propagate": true,
+                "notify_warnings": true,
+                "code": "return \"do you still remember my name?\""
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "__class__": "Node"
+        },
+        {
+          "id": "fca42e78-772a-45df-ad9d-dc98c672cfc4",
+          "position": {
+            "x": 1592,
+            "y": 265
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "LLM",
+            "events": null,
+            "description": "",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input",
+                "service": "",
+                "to": "output"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Custom",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "model_name",
+                  "type": "select",
+                  "label": "model_name",
+                  "helper": "",
+                  "group": "",
+                  "value": "text-davinci-003",
+                  "description": "Model name to use.",
+                  "validation": null,
+                  "options": [
+                    "ada",
+                    "babbage",
+                    "code-cushman-001",
+                    "code-cushman-002",
+                    "code-davinci-001",
+                    "code-davinci-002",
+                    "curie",
+                    "davinci",
+                    "gpt-3.5-turbo",
+                    "gpt-3.5-turbo-0301",
+                    "gpt-4",
+                    "gpt-4-0314",
+                    "gpt-4-32k",
+                    "gpt-4-32k-0314",
+                    "text-ada-001",
+                    "text-babbage-001",
+                    "text-curie-001",
+                    "text-davinci-002",
+                    "text-davinci-003"
+                  ]
+                },
+                {
+                  "name": "max_tokens",
+                  "type": "number",
+                  "label": "max_tokens",
+                  "helper": "",
+                  "group": "",
+                  "value": 256,
+                  "description": "The maximum number of tokens to generate in the completion. -1 returns as many tokens as possible given the prompt and the models maximal context size.",
+                  "validation": null
+                },
+                {
+                  "name": "temperature",
+                  "type": "number",
+                  "label": "temperature",
+                  "helper": "",
+                  "group": "",
+                  "value": 1,
+                  "description": "How creative the model should be.",
+                  "validation": null
+                },
+                {
+                  "name": "memory",
+                  "type": "boolean",
+                  "label": "memory",
+                  "helper": "",
+                  "group": "",
+                  "value": false,
+                  "description": "",
+                  "validation": null
+                },
+                {
+                  "name": "type",
+                  "type": "dynamic",
+                  "label": "type",
+                  "helper": "",
+                  "group": "",
+                  "value": null,
+                  "description": "",
+                  "validation": null,
+                  "parent": "memory",
+                  "condition": "{parent}",
+                  "dynamicType": "select",
+                  "options": [
+                    "windows",
+                    "summaries",
+                    "vectors"
+                  ],
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "windows_k",
+                  "type": "dynamic",
+                  "label": "k",
+                  "helper": "",
+                  "group": "",
+                  "value": 5,
+                  "description": "Number of interactions to keep in memory.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='windows'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "summaries_max_token_limit",
+                  "type": "dynamic",
+                  "label": "max_token_limit",
+                  "helper": "",
+                  "group": "",
+                  "value": 2000,
+                  "description": "Number of tokens to keep in memory.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='summaries'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "vectors_embedding_size",
+                  "type": "dynamic",
+                  "label": "embedding_size",
+                  "helper": "",
+                  "group": "",
+                  "value": 1536,
+                  "description": "Embedding size.",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='vectors'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                },
+                {
+                  "name": "vectors_search_kwargs",
+                  "type": "dynamic",
+                  "label": "search_kwargs",
+                  "helper": "",
+                  "group": "",
+                  "value": 1,
+                  "description": "",
+                  "validation": null,
+                  "parent": "type",
+                  "condition": "{parent}==='vectors'",
+                  "dynamicType": "number",
+                  "options": null,
+                  "fields": null,
+                  "url": null
+                }
+              ],
+              "click": null,
+              "icon": "RiCheckboxBlankCircleFill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": true,
+                "model_name": "text-davinci-003",
+                "max_tokens": "256",
+                "temperature": "1",
+                "memory": true,
+                "type": "windows",
+                "windows_k": "5"
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "__class__": "Node"
+        }
+      ],
+      "edges": [
+        {
+          "id": "reactflow__edge-d567d059-78d8-4eb5-9743-ca4bba0c555aoutput-fa111a07-5b2c-4424-92be-8003a3881a9ainput",
+          "source": "d567d059-78d8-4eb5-9743-ca4bba0c555a",
+          "sourceHandle": "output",
+          "target": "fa111a07-5b2c-4424-92be-8003a3881a9a",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#D770AD",
+            "stopColor": "#888"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-fa111a07-5b2c-4424-92be-8003a3881a9aoutput-ec67663c-6f08-4b3d-92d3-13c0ffd9e7ceinput",
+          "source": "fa111a07-5b2c-4424-92be-8003a3881a9a",
+          "sourceHandle": "output",
+          "target": "ec67663c-6f08-4b3d-92d3-13c0ffd9e7ce",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#888",
+            "stopColor": "#D770AD"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-ec67663c-6f08-4b3d-92d3-13c0ffd9e7ceoutput-ffef9299-9e4c-4db2-bc38-1e1122d56a21input",
+          "source": "ec67663c-6f08-4b3d-92d3-13c0ffd9e7ce",
+          "sourceHandle": "output",
+          "target": "ffef9299-9e4c-4db2-bc38-1e1122d56a21",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#D770AD",
+            "stopColor": "#888"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-ffef9299-9e4c-4db2-bc38-1e1122d56a21output-ef14c5d0-af11-4393-96b0-e3cc214c1807input",
+          "source": "ffef9299-9e4c-4db2-bc38-1e1122d56a21",
+          "sourceHandle": "output",
+          "target": "ef14c5d0-af11-4393-96b0-e3cc214c1807",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#888",
+            "stopColor": "#D770AD"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        },
+        {
+          "id": "reactflow__edge-ef14c5d0-af11-4393-96b0-e3cc214c1807output-fca42e78-772a-45df-ad9d-dc98c672cfc4input",
+          "source": "ef14c5d0-af11-4393-96b0-e3cc214c1807",
+          "sourceHandle": "output",
+          "target": "fca42e78-772a-45df-ad9d-dc98c672cfc4",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#D770AD",
+            "stopColor": "#888"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        }
+      ],
+      "__class__": "Graph"
+    },
+    "parser": {
+      "nodes": [
+        {
+          "id": "5976ebd6-6dd1-4642-9f79-ca80e2fea2a2",
+          "position": {
+            "x": 465,
+            "y": 190
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "Trigger",
+            "events": null,
+            "description": "### Description\nThe TRIGGER component is used to start streams.\n\n### Output\nThe parameter Type can be set as a **String** or an **Object**. The parameter Value, on the other hand, defines the actual output of the component.",
+            "inputs": [],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Common",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "type",
+                  "type": "select",
+                  "description": "The type of data",
+                  "label": "Type",
+                  "validation": {
+                    "required": "Required field"
+                  },
+                  "fragment": null,
+                  "advanced": false,
+                  "options": [
+                    "String",
+                    "Object"
+                  ],
+                  "value": null
+                },
+                {
+                  "name": "value",
+                  "type": "dynamic",
+                  "dynamicType": {
+                    "String": "area",
+                    "Object": "code"
+                  },
+                  "parent": "type",
+                  "label": "Value",
+                  "validation": {
+                    "required": "Required field"
+                  }
+                }
+              ],
+              "click": "Send message",
+              "icon": "RiPlayFill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": true,
+                "type": "String",
+                "value": "Tom Hanks acted in Forrest Gump and Apollo 13."
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "__class__": "Node"
+        },
+        {
+          "id": "43d7d44e-e361-4b32-a7c1-425baa9f2cbc",
+          "position": {
+            "x": 716,
+            "y": 144
+          },
+          "type": "custom",
+          "dragHandle": "#nodeHandle",
+          "sourcePosition": "right",
+          "targetPosition": "left",
+          "width": 150,
+          "height": 56,
+          "selected": false,
+          "dragging": false,
+          "data": {
+            "name": "LLM Parser",
+            "events": null,
+            "description": "### Description\nThe **LLM Parser** allows to parse input using Large Language Models.\n\n### Configuration\n\n- **model_name** parameter sets the model you want to use.\n- **max_tokens** represents the maximum number of tokens to generate in the completion. -1 returns as many tokens as \npossible given the prompt and the models maximal context size.\n- **temperature** represents how creative the model should be. Lower values make the model more deterministic.\n- **model** represents the fields structure you need as the output. Each field needs a **field_name**, **field_type**,\n**field_description**.\n \n**Example**:\n\n \n\n|  field_name_____ |  field_type_____ |  field_description____________________ |\n|:-----------------|:-----------------|:---------------------------------------|\n| name             | str              | name of an actor                       |\n| film_names       | List[str]  \t  | list of names of films they starred in |\n\n\n",
+            "inputs": [
+              {
+                "id": "input",
+                "label": "input",
+                "service": "parser",
+                "to": "output"
+              }
+            ],
+            "outputs": [
+              {
+                "id": "output",
+                "label": "output"
+              }
+            ],
+            "configured": true,
+            "options": {
+              "group": "Custom",
+              "args": [
+                {
+                  "name": "comment",
+                  "type": "area",
+                  "label": "Node comment",
+                  "helper": "Use it to explain the usage of this node"
+                },
+                {
+                  "name": "alias",
+                  "type": "text",
+                  "label": "Name",
+                  "helper": "Use this name as an alias"
+                },
+                {
+                  "name": "debug",
+                  "type": "boolean",
+                  "label": "Debug to Console",
+                  "divider": true
+                },
+                {
+                  "name": "model_name",
+                  "type": "select",
+                  "label": "model_name",
+                  "helper": "",
+                  "group": "",
+                  "value": "text-davinci-003",
+                  "description": "Model name to use.",
+                  "validation": null,
+                  "options": [
+                    "ada",
+                    "babbage",
+                    "code-cushman-001",
+                    "code-cushman-002",
+                    "code-davinci-001",
+                    "code-davinci-002",
+                    "curie",
+                    "davinci",
+                    "gpt-3.5-turbo",
+                    "gpt-3.5-turbo-0301",
+                    "gpt-4",
+                    "gpt-4-0314",
+                    "gpt-4-32k",
+                    "gpt-4-32k-0314",
+                    "text-ada-001",
+                    "text-babbage-001",
+                    "text-curie-001",
+                    "text-davinci-002",
+                    "text-davinci-003"
+                  ]
+                },
+                {
+                  "name": "max_tokens",
+                  "type": "number",
+                  "label": "max_tokens",
+                  "helper": "",
+                  "group": "",
+                  "value": 256,
+                  "description": "The maximum number of tokens to generate in the completion. -1 returns as many tokens as possible given the prompt and the models maximal context size.",
+                  "validation": null
+                },
+                {
+                  "name": "temperature",
+                  "type": "number",
+                  "label": "temperature",
+                  "helper": "",
+                  "group": "",
+                  "value": 1,
+                  "description": "How creative the model should be.",
+                  "validation": null
+                },
+                {
+                  "name": "model",
+                  "type": "multiKeyValue",
+                  "label": "model",
+                  "helper": "",
+                  "group": "",
+                  "value": null,
+                  "description": "",
+                  "validation": null,
+                  "fields": [
+                    {
+                      "name": "field_name",
+                      "placeholder": "field_name",
+                      "validation": {
+                        "required": "Required field"
+                      }
+                    },
+                    {
+                      "name": "field_type",
+                      "placeholder": "field_type",
+                      "validation": {
+                        "required": "Required field"
+                      }
+                    },
+                    {
+                      "name": "field_description",
+                      "placeholder": "field_description",
+                      "validation": {
+                        "required": "Required field"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "click": null,
+              "icon": "RiCheckboxBlankCircleFill",
+              "values": {
+                "comment": "",
+                "alias": "",
+                "debug": true,
+                "model_name": "text-davinci-003",
+                "max_tokens": "256",
+                "temperature": "1",
+                "model": [
+                  {
+                    "field_name": "name",
+                    "field_type": "str",
+                    "field_description": "name of an actor",
+                    "id": "cb38a4e0-fdc2-4369-aa9b-6065f1d6ddb9"
+                  },
+                  {
+                    "field_name": "film_names",
+                    "field_type": "Optional[List[str]]",
+                    "field_description": "list of names of films they starred in",
+                    "id": "9daf85ac-ca99-48e3-8df8-d44380bacb88"
+                  }
+                ]
+              }
+            },
+            "locked": null
+          },
+          "selectable": true,
+          "draggable": true,
+          "positionAbsolute": {
+            "x": 716,
+            "y": 144
+          },
+          "__class__": "Node"
+        }
+      ],
+      "edges": [
+        {
+          "id": "reactflow__edge-5976ebd6-6dd1-4642-9f79-ca80e2fea2a2output-43d7d44e-e361-4b32-a7c1-425baa9f2cbcinput",
+          "source": "5976ebd6-6dd1-4642-9f79-ca80e2fea2a2",
+          "sourceHandle": "output",
+          "target": "43d7d44e-e361-4b32-a7c1-425baa9f2cbc",
+          "targetHandle": "input",
+          "data": {
+            "startColor": "#D770AD",
+            "stopColor": "#888"
+          },
+          "selected": false,
+          "dragging": false,
+          "__class__": "Edge"
+        }
+      ],
+      "__class__": "Graph"
+    }
+  },
+  "open": [
+    "main"
+  ],
+  "active": "main",
+  "version": "1.0.0",
+  "__class__": "Project"
+}

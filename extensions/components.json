@@ -1,0 +1,377 @@
+[
+ {
+  "name": "LLM",
+  "description": "### Description\nThe **LLM** component allows to interact with Large Language Models.\n\n### Configuration\n\n- **model_name** parameter sets the model you want to use.\n- **max_tokens** represents the maximum number of tokens to generate in the completion. 1 returns as many tokens as \npossible given the prompt and the models maximal context size.\n- **temperature** represents how creative the model should be. Lower values make the model more deterministic.\n- **memory** parameter allows to keep trace of the previous interactions. Memory is based on **windows**, **summaries** \nor **vectors**:\n    - The **WindowMemory** uses the last K interaction to predict the next completion; \n    - The **SummaryMemory** creates a summary of the conversation over time;\n    - The **VectorStoreMemory** stores interactions into vectors and queries the top-K documents when it is called.\n \n",
+  "group": "Custom",
+  "icon": "RiCheckboxBlankCircleFill",
+  "click": null,
+  "events": null,
+  "configured": true,
+  "inputs": [
+   {
+    "id": "input",
+    "label": "input",
+    "service": "",
+    "to": "output"
+   }
+  ],
+  "outputs": [
+   {
+    "id": "output",
+    "label": "output"
+   }
+  ],
+  "options": {
+   "values": {
+    "model_name": "text-davinci-003",
+    "max_tokens": 256,
+    "temperature": 1.0,
+    "windows_k": 5,
+    "summaries_max_token_limit": 2000,
+    "vectors_embedding_size": 1536,
+    "vectors_search_kwargs": 1
+   },
+   "args": [
+    {
+     "name": "model_name",
+     "type": "select",
+     "label": "model_name",
+     "helper": "",
+     "group": "",
+     "value": "text-davinci-003",
+     "description": "Model name to use.",
+     "validation": null,
+     "options": [
+      "ada",
+      "babbage",
+      "code-cushman-001",
+      "code-cushman-002",
+      "code-davinci-001",
+      "code-davinci-002",
+      "curie",
+      "davinci",
+      "gpt-3.5-turbo",
+      "gpt-3.5-turbo-0301",
+      "gpt-4",
+      "gpt-4-0314",
+      "gpt-4-32k",
+      "gpt-4-32k-0314",
+      "text-ada-001",
+      "text-babbage-001",
+      "text-curie-001",
+      "text-davinci-002",
+      "text-davinci-003"
+     ]
+    },
+    {
+     "name": "max_tokens",
+     "type": "number",
+     "label": "max_tokens",
+     "helper": "",
+     "group": "",
+     "value": 256,
+     "description": "The maximum number of tokens to generate in the completion. -1 returns as many tokens as possible given the prompt and the models maximal context size.",
+     "validation": null
+    },
+    {
+     "name": "temperature",
+     "type": "number",
+     "label": "temperature",
+     "helper": "",
+     "group": "",
+     "value": 1.0,
+     "description": "How creative the model should be.",
+     "validation": null
+    },
+    {
+     "name": "memory",
+     "type": "boolean",
+     "label": "memory",
+     "helper": "",
+     "group": "",
+     "value": false,
+     "description": "",
+     "validation": null
+    },
+    {
+     "name": "type",
+     "type": "dynamic",
+     "label": "type",
+     "helper": "",
+     "group": "",
+     "value": null,
+     "description": "",
+     "validation": null,
+     "parent": "memory",
+     "condition": "{parent}",
+     "dynamicType": "select",
+     "options": [
+      "windows",
+      "summaries",
+      "vectors"
+     ],
+     "fields": null,
+     "url": null
+    },
+    {
+     "name": "windows_k",
+     "type": "dynamic",
+     "label": "k",
+     "helper": "",
+     "group": "",
+     "value": 5,
+     "description": "Number of interactions to keep in memory.",
+     "validation": null,
+     "parent": "type",
+     "condition": "{parent}==='windows'",
+     "dynamicType": "number",
+     "options": null,
+     "fields": null,
+     "url": null
+    },
+    {
+     "name": "summaries_max_token_limit",
+     "type": "dynamic",
+     "label": "max_token_limit",
+     "helper": "",
+     "group": "",
+     "value": 2000,
+     "description": "Number of tokens to keep in memory.",
+     "validation": null,
+     "parent": "type",
+     "condition": "{parent}==='summaries'",
+     "dynamicType": "number",
+     "options": null,
+     "fields": null,
+     "url": null
+    },
+    {
+     "name": "vectors_embedding_size",
+     "type": "dynamic",
+     "label": "embedding_size",
+     "helper": "",
+     "group": "",
+     "value": 1536,
+     "description": "Embedding size.",
+     "validation": null,
+     "parent": "type",
+     "condition": "{parent}==='vectors'",
+     "dynamicType": "number",
+     "options": null,
+     "fields": null,
+     "url": null
+    },
+    {
+     "name": "vectors_search_kwargs",
+     "type": "dynamic",
+     "label": "search_kwargs",
+     "helper": "",
+     "group": "",
+     "value": 1,
+     "description": "",
+     "validation": null,
+     "parent": "type",
+     "condition": "{parent}==='vectors'",
+     "dynamicType": "number",
+     "options": null,
+     "fields": null,
+     "url": null
+    }
+   ]
+  }
+ },
+ {
+  "name": "HTML2Text",
+  "description": "### Description\nThe **HTML2Text** extracts text from HTML. \n",
+  "group": "Custom",
+  "icon": "RiCheckboxBlankCircleFill",
+  "click": null,
+  "events": null,
+  "configured": true,
+  "inputs": [
+   {
+    "id": "input",
+    "label": "input",
+    "service": "html2text",
+    "to": "output"
+   }
+  ],
+  "outputs": [
+   {
+    "id": "output",
+    "label": "output"
+   }
+  ],
+  "options": {
+   "values": {},
+   "args": []
+  }
+ },
+ {
+  "name": "LLM Summary",
+  "description": "### Description\nThe **LLM Summary** uses the Large Language Models to implement summarization.\n\n### Configuration\n\n- **chunk_size** parameter sets the maximum number of characters of the single chunks used by the LLM.\n- **chunk_overlap** represents the overlap between chunks. \n",
+  "group": "Custom",
+  "icon": "RiCheckboxBlankCircleFill",
+  "click": null,
+  "events": null,
+  "configured": true,
+  "inputs": [
+   {
+    "id": "input",
+    "label": "input",
+    "service": "summary_service",
+    "to": "output"
+   }
+  ],
+  "outputs": [
+   {
+    "id": "output",
+    "label": "output"
+   }
+  ],
+  "options": {
+   "values": {
+    "chunk_size": 700,
+    "chunk_overlap": 70
+   },
+   "args": [
+    {
+     "name": "chunk_size",
+     "type": "number",
+     "label": "chunk_size",
+     "helper": "",
+     "group": "",
+     "value": 700,
+     "description": "",
+     "validation": null
+    },
+    {
+     "name": "chunk_overlap",
+     "type": "number",
+     "label": "chunk_overlap",
+     "helper": "",
+     "group": "",
+     "value": 70,
+     "description": "",
+     "validation": null
+    }
+   ]
+  }
+ },
+ {
+  "name": "LLM Parser",
+  "description": "### Description\nThe **LLM Parser** allows to parse input using Large Language Models.\n\n### Configuration\n\n- **model_name** parameter sets the model you want to use.\n- **max_tokens** represents the maximum number of tokens to generate in the completion. -1 returns as many tokens as \npossible given the prompt and the models maximal context size.\n- **temperature** represents how creative the model should be. Lower values make the model more deterministic.\n- **model** represents the fields structure you need as the output. Each field needs a **field_name**, **field_type**,\n**field_description**.\n \n**Example**:\n\nModel:\n\n```\n<field_name>         <field_type>         <field_description>\nname                 str                  name of an actor                       \nfilm_names           List[str]            list of names of films they starred in \n```\n\nInput: \n```\nTom Hanks acted in Forrest Gump and Apollo 13.\n```\n\nOutput:\n```\n{\n    \"film_names\": [\"Forrest Gump\",\"Apollo 13\"],\n    \"name\": \"Tom Hanks\"\n}\n```\n\n",
+  "group": "Custom",
+  "icon": "RiCheckboxBlankCircleFill",
+  "click": null,
+  "events": null,
+  "configured": false,
+  "inputs": [
+   {
+    "id": "input",
+    "label": "input",
+    "service": "parser",
+    "to": "output"
+   }
+  ],
+  "outputs": [
+   {
+    "id": "output",
+    "label": "output"
+   }
+  ],
+  "options": {
+   "values": {
+    "model_name": "text-davinci-003",
+    "max_tokens": 256,
+    "temperature": 1.0
+   },
+   "args": [
+    {
+     "name": "model_name",
+     "type": "select",
+     "label": "model_name",
+     "helper": "",
+     "group": "",
+     "value": "text-davinci-003",
+     "description": "Model name to use.",
+     "validation": null,
+     "options": [
+      "ada",
+      "babbage",
+      "code-cushman-001",
+      "code-cushman-002",
+      "code-davinci-001",
+      "code-davinci-002",
+      "curie",
+      "davinci",
+      "gpt-3.5-turbo",
+      "gpt-3.5-turbo-0301",
+      "gpt-4",
+      "gpt-4-0314",
+      "gpt-4-32k",
+      "gpt-4-32k-0314",
+      "text-ada-001",
+      "text-babbage-001",
+      "text-curie-001",
+      "text-davinci-002",
+      "text-davinci-003"
+     ]
+    },
+    {
+     "name": "max_tokens",
+     "type": "number",
+     "label": "max_tokens",
+     "helper": "",
+     "group": "",
+     "value": 256,
+     "description": "The maximum number of tokens to generate in the completion. -1 returns as many tokens as possible given the prompt and the models maximal context size.",
+     "validation": null
+    },
+    {
+     "name": "temperature",
+     "type": "number",
+     "label": "temperature",
+     "helper": "",
+     "group": "",
+     "value": 1.0,
+     "description": "How creative the model should be.",
+     "validation": null
+    },
+    {
+     "name": "model",
+     "type": "multiKeyValue",
+     "label": "model",
+     "helper": "",
+     "group": "",
+     "value": null,
+     "description": "",
+     "validation": null,
+     "fields": [
+      {
+       "name": "field_name",
+       "placeholder": "field_name",
+       "validation": {
+        "required": "Required field"
+       }
+      },
+      {
+       "name": "field_type",
+       "placeholder": "field_type",
+       "validation": {
+        "required": "Required field"
+       }
+      },
+      {
+       "name": "field_description",
+       "placeholder": "field_description",
+       "validation": {
+        "required": "Required field"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ }
+]

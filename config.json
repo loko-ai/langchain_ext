@@ -1,0 +1,7 @@
+{
+  "main": {
+    "environment": {
+      "OPENAI_API_KEY": "<insert your OPENAI API KEY here>"
+    }
+  }
+}
