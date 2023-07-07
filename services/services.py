@@ -1,14 +1,19 @@
+import chromadb
 from bs4 import BeautifulSoup
+from langchain.chains import RetrievalQAWithSourcesChain, ConversationalRetrievalChain
+from langchain.embeddings import OpenAIEmbeddings
+from langchain.vectorstores import Chroma
+
 from doc.doc import llm_doc, llm_summary_doc, html_doc, llm_parser_doc
 from flask import Flask, request, jsonify
 from langchain import OpenAI
 from langchain.chains.summarize import load_summarize_chain
 from langchain.schema import Document
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter, CharacterTextSplitter
 from loguru import logger
 from loko_extensions.business.decorators import extract_value_args
 from loko_extensions.model.components import Component, Arg, save_extensions, Input, Select, Dynamic, MKVField, \
-    MultiKeyValue
+    MultiKeyValue, AsyncSelect
 
 from model.memory_model import OpenAIModelMemory
 from model.parser_model import OpenAIParserModel
@@ -69,7 +74,25 @@ output_parser = Component("LLM Parser", inputs=[Input("input", service="parser")
                           configured=False,
                           description=llm_parser_doc)
 
-save_extensions([c, html, summary, output_parser])
+chroma = Component("Chroma", inputs=[Input("save", service="chroma_save")],
+                          args=[Arg(name="collection_name", value="langchain")])
+
+qa = Component("LLM QA", inputs=[Input("input", service="qa")],
+                          args=[AsyncSelect(name="collection_name",
+                                            url='http://localhost:9999/routes/langchain_ext/chroma_collections',
+                                            value="langchain"),
+                                Select(name="model_name", options=models, value="text-davinci-003",
+                                       description="Model name to use."),
+                                Arg(name="max_tokens", description="The maximum number of tokens to generate in the "
+                                                                   "completion. -1 returns as many tokens as possible "
+                                                                   "given the prompt and the models maximal context size.",
+                                    type="number", value=256),
+                                Arg(name="temperature", description="How creative the model should be.",
+                                    type="number", value=1.0)],
+                          configured=False,
+                          description="")
+
+save_extensions([c, html, summary, output_parser, chroma, qa])
 
 models = dict()
 
@@ -92,7 +115,9 @@ def respond(value, args):
             models['llm_memory'] = OpenAIModelMemory(llm=llm, memory_type=memory_type, **memory_args)
         llm = models.get('llm_memory')
         logger.debug(f'MEMORY: {llm.llm_chain.memory}')
+        logger.debug(f'PROMPT: {llm.llm_chain.prompt}')
 
+    logger.debug(f'LLM : {llm}')
     resp = llm(value)
     logger.debug("Response")
     logger.debug(resp)
@@ -141,6 +166,68 @@ def parser(value, args):
     logger.debug(resp)
 
     return jsonify(resp.__dict__)
+
+
+@app.route("/chroma_save", methods=["POST"])
+@extract_value_args(_request=request)
+def chroma_save(value, args):
+    collection_name = args.get("collection_name")
+    embeddings = OpenAIEmbeddings()
+    coll = Chroma(collection_name=collection_name, persist_directory='../resources/.chroma', embedding_function=embeddings)
+    if isinstance(value, str):
+        value = [dict(text=value, metadata=dict(source='no source'))]
+    docs = [Document(page_content=el['text'], metadata=el['metadata']) for el in value]
+    logger.debug(f'VALUE: {value}')
+
+    text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+    splitted_docs = text_splitter.split_documents(docs)
+    texts = [doc.page_content for doc in splitted_docs]
+    metadatas = [doc.metadata for doc in splitted_docs]
+    coll.add_texts(texts=texts, metadatas=metadatas)
+    # value['texts'] = [text_splitter.split_text(text) for text in value['texts']]
+    # coll.add_texts(**value)
+    coll.persist()
+
+    return jsonify('OK')
+
+@app.route("/chroma_collections", methods=["GET"])
+def collections():
+    client_settings = chromadb.config.Settings(
+        chroma_db_impl="duckdb+parquet",
+        persist_directory='../resources/.chroma')
+
+    client = chromadb.Client(client_settings)
+
+    return jsonify([coll.name for coll in client.list_collections()])
+
+
+
+@app.route("/qa", methods=["POST"])
+@extract_value_args(_request=request)
+def qa(value, args):
+    collection_name = args.get("collection_name")
+    temperature = args.get("temperature", 1)
+    model_name = args.get("model_name", "text-davinci-003")
+    max_tokens = args.get("max_tokens", 256)
+
+    logger.debug(f'ARGS: {args}')
+
+    embeddings = OpenAIEmbeddings()
+    docsearch = Chroma(collection_name=collection_name, persist_directory='../resources/.chroma',
+                       embedding_function=embeddings)
+
+    llm = OpenAI(model_name=model_name, max_tokens=int(max_tokens), temperature=float(temperature))
+    chain = RetrievalQAWithSourcesChain.from_chain_type(llm=llm,
+                                                        chain_type="stuff",
+                                                        retriever=docsearch.as_retriever(k=1),
+                                                        return_source_documents=True,
+                                                        reduce_k_below_max_tokens=True,
+                                                        max_tokens_limit=1000)
+
+
+    result = chain({"question": value})
+    logger.debug(result)
+    return jsonify(result['answer'])
 
 if __name__ == "__main__":
     app.run("0.0.0.0", 8080)

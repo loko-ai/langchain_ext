@@ -7,4 +7,5 @@ venv
 *.pyc
 dist
 __pycache__
+resources
 **/node_modules

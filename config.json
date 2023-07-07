@@ -2,6 +2,9 @@
   "main": {
     "environment": {
       "OPENAI_API_KEY": "<insert your OPENAI API KEY here>"
-    }
+    },
+    "volumes": [
+      "/var/opt/loko/langchain/resources/:/plugin/resources/"
+    ]
   }
 }
