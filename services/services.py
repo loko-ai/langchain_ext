@@ -1,6 +1,8 @@
+import json
+
 import chromadb
 from bs4 import BeautifulSoup
-from langchain.chains import RetrievalQAWithSourcesChain, ConversationalRetrievalChain
+from langchain.chains import RetrievalQAWithSourcesChain
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import Chroma
 
@@ -9,11 +11,11 @@ from flask import Flask, request, jsonify
 from langchain import OpenAI
 from langchain.chains.summarize import load_summarize_chain
 from langchain.schema import Document
-from langchain.text_splitter import RecursiveCharacterTextSplitter, CharacterTextSplitter
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 from loguru import logger
 from loko_extensions.business.decorators import extract_value_args
 from loko_extensions.model.components import Component, Arg, save_extensions, Input, Select, Dynamic, MKVField, \
-    MultiKeyValue, AsyncSelect
+    MultiKeyValue, AsyncSelect, Output
 
 from model.memory_model import OpenAIModelMemory
 from model.parser_model import OpenAIParserModel
@@ -74,8 +76,20 @@ output_parser = Component("LLM Parser", inputs=[Input("input", service="parser")
                           configured=False,
                           description=llm_parser_doc)
 
-chroma = Component("Chroma", inputs=[Input("save", service="chroma_save")],
-                          args=[Arg(name="collection_name", value="langchain")])
+chroma = Component("Chroma", inputs=[Input("save", service="chroma_save", to="save"),
+                                     Input("delete", service="chroma_delete", to="delete")],
+                   outputs=[Output("save"), Output("delete")],
+                   args=[Arg(name='existing_collection', label='use existing collection', type='boolean', value=True),
+                         Dynamic(name="collection_name", parent="existing_collection",
+                                 condition="{parent}", dynamicType='asyncSelect',
+                                 url='http://localhost:9999/routes/langchain_ext/chroma_collections'),
+                         Dynamic(name="new_collection_name", parent="existing_collection",
+                                 condition="!{parent}",
+                                 url='http://localhost:9999/routes/langchain_ext/chroma_collections'),
+                         Arg(name="chunk_size", value=700, type="number"),
+                         Arg(name="chunk_overlap", value=70, type="number"),
+                         Arg(name='embeddings_model', value='text-embedding-ada-002')
+                         ])
 
 qa = Component("LLM QA", inputs=[Input("input", service="qa")],
                           args=[AsyncSelect(name="collection_name",
@@ -88,7 +102,11 @@ qa = Component("LLM QA", inputs=[Input("input", service="qa")],
                                                                    "given the prompt and the models maximal context size.",
                                     type="number", value=256),
                                 Arg(name="temperature", description="How creative the model should be.",
-                                    type="number", value=1.0)],
+                                    type="number", value=1.0),
+                                Select(name="chain_type", options=["stuff", "map_reduce", "refine", "map-rerank"],
+                                       value="stuff"),
+                                Arg(name="n_sources", type="number", value=1)
+                                ],
                           configured=False,
                           description="")
 
@@ -171,25 +189,36 @@ def parser(value, args):
 @app.route("/chroma_save", methods=["POST"])
 @extract_value_args(_request=request)
 def chroma_save(value, args):
-    collection_name = args.get("collection_name")
-    embeddings = OpenAIEmbeddings()
+    collection_name = args.get("collection_name") or args.get("new_collection_name")
+    chunk_size = int(args.get('chunk_size', 700))
+    chunk_overlap = int(args.get('chunk_overlap', 70))
+    model = args.get('embeddings_model', 'text-embedding-ada-002')
+    embeddings = OpenAIEmbeddings(model=model)
     coll = Chroma(collection_name=collection_name, persist_directory='../resources/.chroma', embedding_function=embeddings)
     if isinstance(value, str):
         value = [dict(text=value, metadata=dict(source='no source'))]
-    docs = [Document(page_content=el['text'], metadata=el['metadata']) for el in value]
-    logger.debug(f'VALUE: {value}')
+    texts = [doc['text'] for doc in value]
+    metadatas = [dict(source=json.dumps(doc['metadata']['source'])) for doc in value]
 
-    text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
-    splitted_docs = text_splitter.split_documents(docs)
-    texts = [doc.page_content for doc in splitted_docs]
-    metadatas = [doc.metadata for doc in splitted_docs]
-    coll.add_texts(texts=texts, metadatas=metadatas)
-    # value['texts'] = [text_splitter.split_text(text) for text in value['texts']]
-    # coll.add_texts(**value)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size,
+                                                   chunk_overlap=chunk_overlap,
+                                                   length_function=len)
+    splitted_docs = text_splitter.create_documents(texts=texts, metadatas=metadatas)
+    logger.debug(f'SPLITS: {len(splitted_docs)}')
+    coll.add_documents(splitted_docs)
     coll.persist()
 
     return jsonify('OK')
 
+@app.route("/chroma_delete", methods=["POST"])
+@extract_value_args(_request=request)
+def chroma_delete(value, args):
+    collection_name = args.get("collection_name") or args.get("new_collection_name")
+    coll = Chroma(collection_name=collection_name, persist_directory='../resources/.chroma')
+    coll.delete_collection()
+    coll.persist()
+
+    return jsonify(f'{collection_name} deleted')
 @app.route("/chroma_collections", methods=["GET"])
 def collections():
     client_settings = chromadb.config.Settings(
@@ -206,9 +235,12 @@ def collections():
 @extract_value_args(_request=request)
 def qa(value, args):
     collection_name = args.get("collection_name")
-    temperature = args.get("temperature", 1)
+    temperature = float(args.get("temperature", 1))
     model_name = args.get("model_name", "text-davinci-003")
-    max_tokens = args.get("max_tokens", 256)
+    max_tokens = int(args.get("max_tokens", 256))
+    chain_type = args.get('chain_type', 'stuff')
+    n_sources = int(args.get('n_sources', 1))
+
 
     logger.debug(f'ARGS: {args}')
 
@@ -216,18 +248,19 @@ def qa(value, args):
     docsearch = Chroma(collection_name=collection_name, persist_directory='../resources/.chroma',
                        embedding_function=embeddings)
 
-    llm = OpenAI(model_name=model_name, max_tokens=int(max_tokens), temperature=float(temperature))
+    llm = OpenAI(model_name=model_name, max_tokens=max_tokens, temperature=temperature)
     chain = RetrievalQAWithSourcesChain.from_chain_type(llm=llm,
-                                                        chain_type="stuff",
-                                                        retriever=docsearch.as_retriever(k=1),
+                                                        chain_type=chain_type,
+                                                        retriever=docsearch.as_retriever(k=n_sources),
                                                         return_source_documents=True,
                                                         reduce_k_below_max_tokens=True,
-                                                        max_tokens_limit=1000)
+                                                        max_tokens_limit=max_tokens)
 
 
     result = chain({"question": value})
     logger.debug(result)
-    return jsonify(result['answer'])
+    return jsonify(dict(answer=result['answer'],
+                        sources=[dict(page_content=s.page_content, source=json.loads(s.metadata['source'])) for s in result['source_documents']]))
 
 if __name__ == "__main__":
     app.run("0.0.0.0", 8080)

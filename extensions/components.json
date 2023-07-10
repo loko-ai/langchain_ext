@@ -387,27 +387,102 @@
     "id": "save",
     "label": "save",
     "service": "chroma_save",
-    "to": "output"
+    "to": "save"
+   },
+   {
+    "id": "delete",
+    "label": "delete",
+    "service": "chroma_delete",
+    "to": "delete"
    }
   ],
   "outputs": [
    {
-    "id": "output",
-    "label": "output"
+    "id": "save",
+    "label": "save"
+   },
+   {
+    "id": "delete",
+    "label": "delete"
    }
   ],
   "options": {
    "values": {
-    "collection_name": "langchain"
+    "existing_collection": true,
+    "chunk_size": 700,
+    "chunk_overlap": 70,
+    "embeddings_model": "text-embedding-ada-002"
    },
    "args": [
     {
+     "name": "existing_collection",
+     "type": "boolean",
+     "label": "use existing collection",
+     "helper": "",
+     "group": "",
+     "value": true,
+     "description": "",
+     "validation": null
+    },
+    {
      "name": "collection_name",
-     "type": "text",
+     "type": "dynamic",
      "label": "collection_name",
      "helper": "",
      "group": "",
-     "value": "langchain",
+     "value": null,
+     "description": "",
+     "validation": null,
+     "parent": "existing_collection",
+     "condition": "{parent}",
+     "dynamicType": "asyncSelect",
+     "options": null,
+     "fields": null,
+     "url": "http://localhost:9999/routes/langchain_ext/chroma_collections"
+    },
+    {
+     "name": "new_collection_name",
+     "type": "dynamic",
+     "label": "new_collection_name",
+     "helper": "",
+     "group": "",
+     "value": null,
+     "description": "",
+     "validation": null,
+     "parent": "existing_collection",
+     "condition": "!{parent}",
+     "dynamicType": "text",
+     "options": null,
+     "fields": null,
+     "url": "http://localhost:9999/routes/langchain_ext/chroma_collections"
+    },
+    {
+     "name": "chunk_size",
+     "type": "number",
+     "label": "chunk_size",
+     "helper": "",
+     "group": "",
+     "value": 700,
+     "description": "",
+     "validation": null
+    },
+    {
+     "name": "chunk_overlap",
+     "type": "number",
+     "label": "chunk_overlap",
+     "helper": "",
+     "group": "",
+     "value": 70,
+     "description": "",
+     "validation": null
+    },
+    {
+     "name": "embeddings_model",
+     "type": "text",
+     "label": "embeddings_model",
+     "helper": "",
+     "group": "",
+     "value": "text-embedding-ada-002",
      "description": "",
      "validation": null
     }
@@ -441,7 +516,9 @@
     "collection_name": "langchain",
     "model_name": "text-davinci-003",
     "max_tokens": 256,
-    "temperature": 1.0
+    "temperature": 1.0,
+    "chain_type": "stuff",
+    "n_sources": 1
    },
    "args": [
     {
@@ -504,6 +581,32 @@
      "group": "",
      "value": 1.0,
      "description": "How creative the model should be.",
+     "validation": null
+    },
+    {
+     "name": "chain_type",
+     "type": "select",
+     "label": "chain_type",
+     "helper": "",
+     "group": "",
+     "value": "stuff",
+     "description": "",
+     "validation": null,
+     "options": [
+      "stuff",
+      "map_reduce",
+      "refine",
+      "map-rerank"
+     ]
+    },
+    {
+     "name": "n_sources",
+     "type": "number",
+     "label": "n_sources",
+     "helper": "",
+     "group": "",
+     "value": 1,
+     "description": "",
      "validation": null
     }
    ]
