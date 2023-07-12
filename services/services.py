@@ -2,7 +2,6 @@ import json
 
 import chromadb
 from bs4 import BeautifulSoup
-from langchain.chains import RetrievalQAWithSourcesChain
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import Chroma
 
@@ -19,6 +18,7 @@ from loko_extensions.model.components import Component, Arg, save_extensions, In
 
 from model.memory_model import OpenAIModelMemory
 from model.parser_model import OpenAIParserModel
+from model.qa_model import OpenAIQAModel
 
 app = Flask("")
 
@@ -198,7 +198,8 @@ def chroma_save(value, args):
     if isinstance(value, str):
         value = [dict(text=value, metadata=dict(source='no source'))]
     texts = [doc['text'] for doc in value]
-    metadatas = [dict(source=json.dumps(doc['metadata']['source'])) for doc in value]
+    embeddings_bp = dict(model=model)
+    metadatas = [dict(source=json.dumps(doc['metadata']['source']), embeddings=json.dumps(embeddings_bp)) for doc in value]
 
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size,
                                                    chunk_overlap=chunk_overlap,
@@ -244,20 +245,13 @@ def qa(value, args):
 
     logger.debug(f'ARGS: {args}')
 
-    embeddings = OpenAIEmbeddings()
-    docsearch = Chroma(collection_name=collection_name, persist_directory='../resources/.chroma',
-                       embedding_function=embeddings)
+    docsearch = Chroma(collection_name=collection_name, persist_directory='../resources/.chroma')
 
     llm = OpenAI(model_name=model_name, max_tokens=max_tokens, temperature=temperature)
-    chain = RetrievalQAWithSourcesChain.from_chain_type(llm=llm,
-                                                        chain_type=chain_type,
-                                                        retriever=docsearch.as_retriever(k=n_sources),
-                                                        return_source_documents=True,
-                                                        reduce_k_below_max_tokens=True,
-                                                        max_tokens_limit=max_tokens)
 
+    qa = OpenAIQAModel(llm, chain_type, docsearch, n_sources, max_tokens)
 
-    result = chain({"question": value})
+    result = qa(value)
     logger.debug(result)
     return jsonify(dict(answer=result['answer'],
                         sources=[dict(page_content=s.page_content, source=json.loads(s.metadata['source'])) for s in result['source_documents']]))
