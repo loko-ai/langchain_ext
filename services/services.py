@@ -249,7 +249,7 @@ def qa(value, args):
 
     llm = OpenAI(model_name=model_name, max_tokens=max_tokens, temperature=temperature)
 
-    qa = OpenAIQAModel(llm, chain_type, docsearch, n_sources, max_tokens)
+    qa = OpenAIQAModel(llm, chain_type, docsearch, n_sources)
 
     result = qa(value)
     logger.debug(result)

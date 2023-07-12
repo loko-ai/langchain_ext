@@ -12,14 +12,12 @@ def get_embedding_function(collection):
 
 
 class OpenAIQAModel:
-    def __init__(self, llm, chain_type, collection, n_sources, max_tokens):
+    def __init__(self, llm, chain_type, collection, n_sources):
         collection._embedding_function = get_embedding_function(collection)
         self.chain = RetrievalQAWithSourcesChain.from_chain_type(llm=llm,
                                                                  chain_type=chain_type,
-                                                                 retriever=collection.as_retriever(k=n_sources),
-                                                                 return_source_documents=True,
-                                                                 # reduce_k_below_max_tokens=True,
-                                                                 max_tokens_limit=max_tokens)
+                                                                 retriever=collection.as_retriever(search_kwargs={"k": n_sources}),
+                                                                 return_source_documents=True)
 
     def __call__(self, text):
         return self.chain({"question": text})
