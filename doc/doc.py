@@ -64,3 +64,23 @@ Output:
 ```
 
 '''
+
+llm_qa_doc = '''### Description
+The **LLM QA** component allows to interact with Large Language Models basing on provided documents.
+
+### Configuration
+
+- **collection_name** sets the chroma collection used to answer to the query.
+- **model_name** parameter sets the model you want to use.
+- **max_tokens** represents the maximum number of tokens to generate in the completion. 1 returns as many tokens as 
+possible given the prompt and the models maximal context size.
+- **temperature** represents how creative the model should be. Lower values make the model more deterministic.
+- **chain_type** parameter:
+    - The **stuff** uses all documents in the prompt; 
+    - The **map_reduce** separates documents into batches, the final answer is based on the answers from each batch;
+    - The **refine** separates documents into batches, it refines the answer going through all the batches.
+    - **map_rerank** separates documents into batches and assigns scores to the answers, the final answer is based on 
+    the high-scored answer from each batch. 
+- **n_sources** represents the number of documents used to answer to the query.
+
+'''

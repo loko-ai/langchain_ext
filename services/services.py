@@ -2,8 +2,10 @@ import json
 
 import chromadb
 from bs4 import BeautifulSoup
+from chromadb import Settings
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import Chroma
+from werkzeug.exceptions import NotFound
 
 from doc.doc import llm_doc, llm_summary_doc, html_doc, llm_parser_doc
 from flask import Flask, request, jsonify
@@ -114,6 +116,21 @@ save_extensions([c, html, summary, output_parser, chroma, qa])
 
 models = dict()
 
+def handle_invalid_usage(exception):
+    e = str(exception)
+    j = dict(error=e)
+    response = jsonify(j)
+
+    if isinstance(exception, NotFound):
+        logger.error(NotFound)
+        response.status_code = 404
+        return response
+    logger.exception(e)
+
+    status_code = getattr(exception, "code", None) or 500
+    response.status_code = status_code
+
+    return response
 
 @app.route("/", methods=["POST"])
 @extract_value_args(_request=request)
@@ -194,7 +211,10 @@ def chroma_save(value, args):
     chunk_overlap = int(args.get('chunk_overlap', 70))
     model = args.get('embeddings_model', 'text-embedding-ada-002')
     embeddings = OpenAIEmbeddings(model=model)
-    coll = Chroma(collection_name=collection_name, persist_directory='../resources/.chroma', embedding_function=embeddings)
+    client_settings = Settings(chroma_api_impl="rest", chroma_server_host="langchain_ext_chromadb",
+                               chroma_server_http_port="8000")
+    coll = Chroma(collection_name=collection_name,
+                  embedding_function=embeddings, client_settings=client_settings)
     if isinstance(value, str):
         value = [dict(text=value, metadata=dict(source='no source'))]
     texts = [doc['text'] for doc in value]
@@ -222,9 +242,8 @@ def chroma_delete(value, args):
     return jsonify(f'{collection_name} deleted')
 @app.route("/chroma_collections", methods=["GET"])
 def collections():
-    client_settings = chromadb.config.Settings(
-        chroma_db_impl="duckdb+parquet",
-        persist_directory='../resources/.chroma')
+    client_settings = Settings(chroma_api_impl="rest", chroma_server_host="langchain_ext_chromadb",
+                               chroma_server_http_port="8000")
 
     client = chromadb.Client(client_settings)
 
@@ -245,7 +264,10 @@ def qa(value, args):
 
     logger.debug(f'ARGS: {args}')
 
-    docsearch = Chroma(collection_name=collection_name, persist_directory='../resources/.chroma')
+    client_settings = Settings(chroma_api_impl="rest", chroma_server_host="langchain_ext_chromadb",
+                               chroma_server_http_port="8000")
+
+    docsearch = Chroma(collection_name=collection_name, client_settings=client_settings)
 
     llm = OpenAI(model_name=model_name, max_tokens=max_tokens, temperature=temperature)
 
@@ -256,5 +278,7 @@ def qa(value, args):
     return jsonify(dict(answer=result['answer'],
                         sources=[dict(page_content=s.page_content, source=json.loads(s.metadata['source'])) for s in result['source_documents']]))
 
+
+app.register_error_handler(Exception, handle_invalid_usage)
 if __name__ == "__main__":
     app.run("0.0.0.0", 8080)
