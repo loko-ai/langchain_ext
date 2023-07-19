@@ -227,7 +227,7 @@ def chroma_save(value, args):
     splitted_docs = text_splitter.create_documents(texts=texts, metadatas=metadatas)
     logger.debug(f'SPLITS: {len(splitted_docs)}')
     coll.add_documents(splitted_docs)
-    coll.persist()
+    # coll.persist()
 
     return jsonify('OK')
 
@@ -235,9 +235,11 @@ def chroma_save(value, args):
 @extract_value_args(_request=request)
 def chroma_delete(value, args):
     collection_name = args.get("collection_name") or args.get("new_collection_name")
-    coll = Chroma(collection_name=collection_name, persist_directory='../resources/.chroma')
+    client_settings = Settings(chroma_api_impl="rest", chroma_server_host="langchain_ext_chromadb",
+                               chroma_server_http_port="8000")
+    coll = Chroma(collection_name=collection_name, client_settings=client_settings)
     coll.delete_collection()
-    coll.persist()
+    # coll.persist()
 
     return jsonify(f'{collection_name} deleted')
 @app.route("/chroma_collections", methods=["GET"])

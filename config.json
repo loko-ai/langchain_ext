@@ -9,15 +9,15 @@
   },
   "side_containers": {
     "chromadb": {
-      "image": "server",
+      "image": "livetechprove/chromadb",
       "environment": {
         "ANONYMIZED_TELEMETRY": "False",
         "ALLOW_RESET": "True",
         "IS_PERSISTENT": "TRUE"
       },
       "volumes": [
-        "/var/opt/loko/chroma/chroma:/chroma/chroma",
-        "/var/opt/loko/chroma/index:/index_data"
+        "/var/opt/loko/chromadb/chroma:/chroma/chroma",
+        "/var/opt/loko/chromadb/index:/index_data"
       ],
       "ports": {
         "8000": null
