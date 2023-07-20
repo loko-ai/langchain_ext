@@ -491,7 +491,7 @@
  },
  {
   "name": "LLM QA",
-  "description": "",
+  "description": "### Description\nThe **LLM QA** component allows to interact with Large Language Models basing on provided documents.\n\n### Configuration\n\n- **collection_name** sets the chroma collection used to answer to the query.\n- **model_name** parameter sets the model you want to use.\n- **max_tokens** represents the maximum number of tokens to generate in the completion. 1 returns as many tokens as \npossible given the prompt and the models maximal context size.\n- **temperature** represents how creative the model should be. Lower values make the model more deterministic.\n- **chain_type** parameter:\n    - The **stuff** uses all documents in the prompt; \n    - The **map_reduce** separates documents into batches, the final answer is based on the answers from each batch;\n    - The **refine** separates documents into batches, it refines the answer going through all the batches.\n    - **map_rerank** separates documents into batches and assigns scores to the answers, the final answer is based on \n    the high-scored answer from each batch. \n- **n_sources** represents the number of documents used to answer to the query.\n\n",
   "group": "Custom",
   "icon": "RiCheckboxBlankCircleFill",
   "click": null,
@@ -518,7 +518,9 @@
     "max_tokens": 256,
     "temperature": 1.0,
     "chain_type": "stuff",
-    "n_sources": 1
+    "n_sources": 1,
+    "retriever_type": "similarity",
+    "score_threshold": 0.2
    },
    "args": [
     {
@@ -608,6 +610,37 @@
      "value": 1,
      "description": "",
      "validation": null
+    },
+    {
+     "name": "retriever_type",
+     "type": "select",
+     "label": "retriever_type",
+     "helper": "",
+     "group": "",
+     "value": "similarity",
+     "description": "",
+     "validation": null,
+     "options": [
+      "similarity",
+      "similarity_score_threshold",
+      "mmr"
+     ]
+    },
+    {
+     "name": "score_threshold",
+     "type": "dynamic",
+     "label": "score_threshold",
+     "helper": "",
+     "group": "",
+     "value": 0.2,
+     "description": "",
+     "validation": null,
+     "parent": "retriever_type",
+     "condition": "{parent}==='similarity_score_threshold'",
+     "dynamicType": "number",
+     "options": null,
+     "fields": null,
+     "url": null
     }
    ]
   }

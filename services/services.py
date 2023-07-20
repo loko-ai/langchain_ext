@@ -3,11 +3,12 @@ import json
 import chromadb
 from bs4 import BeautifulSoup
 from chromadb import Settings
+from langchain.chat_models import ChatOpenAI
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import Chroma
 from werkzeug.exceptions import NotFound
 
-from doc.doc import llm_doc, llm_summary_doc, html_doc, llm_parser_doc
+from doc.doc import llm_doc, llm_summary_doc, html_doc, llm_parser_doc, llm_qa_doc
 from flask import Flask, request, jsonify
 from langchain import OpenAI
 from langchain.chains.summarize import load_summarize_chain
@@ -28,6 +29,7 @@ models = ['ada', 'babbage', 'code-cushman-001', 'code-cushman-002', 'code-davinc
           'davinci', 'gpt-3.5-turbo', 'gpt-3.5-turbo-0301', 'gpt-4', 'gpt-4-0314', 'gpt-4-32k', 'gpt-4-32k-0314',
           'text-ada-001', 'text-babbage-001', 'text-curie-001', 'text-davinci-002', 'text-davinci-003']
 
+chatopenai_models = ['gpt-3.5-turbo', 'gpt-3.5-turbo-0301']
 
 c = Component("LLM", args=[Select(name="model_name", options=models, value="text-davinci-003",
                                   description="Model name to use."),
@@ -107,14 +109,24 @@ qa = Component("LLM QA", inputs=[Input("input", service="qa")],
                                     type="number", value=1.0),
                                 Select(name="chain_type", options=["stuff", "map_reduce", "refine", "map-rerank"],
                                        value="stuff"),
-                                Arg(name="n_sources", type="number", value=1)
+                                Arg(name="n_sources", type="number", value=1),
+                                Select(name="retriever_type",
+                                       options=["similarity", "similarity_score_threshold", "mmr"],
+                                       value="similarity"),
+                                Dynamic(name="score_threshold", parent="retriever_type",
+                                        condition="{parent}==='similarity_score_threshold'",
+                                        dynamicType="number", value=.2)
                                 ],
-                          configured=False,
-                          description="")
+               configured=False,
+               description=llm_qa_doc)
 
 save_extensions([c, html, summary, output_parser, chroma, qa])
 
 models = dict()
+
+# chroma settings
+client_settings = Settings(chroma_api_impl="rest", chroma_server_host="langchain_ext_chromadb",
+                           chroma_server_http_port="8000")
 
 def handle_invalid_usage(exception):
     e = str(exception)
@@ -127,8 +139,9 @@ def handle_invalid_usage(exception):
         return response
     logger.exception(e)
 
-    status_code = getattr(exception, "code", None) or 500
+    status_code = getattr(exception, "status_code", None) or 500
     response.status_code = status_code
+    logger.debug(f'ERROR: {status_code} - {j}')
 
     return response
 
@@ -191,7 +204,6 @@ def parser(value, args):
 
     logger.debug(f'ARGS: {args}')
 
-
     llm = OpenAI(model_name=model_name, max_tokens=int(max_tokens), temperature=float(temperature))
     parser = OpenAIParserModel(llm=llm, fields=parser_model)
 
@@ -211,8 +223,6 @@ def chroma_save(value, args):
     chunk_overlap = int(args.get('chunk_overlap', 70))
     model = args.get('embeddings_model', 'text-embedding-ada-002')
     embeddings = OpenAIEmbeddings(model=model)
-    client_settings = Settings(chroma_api_impl="rest", chroma_server_host="langchain_ext_chromadb",
-                               chroma_server_http_port="8000")
     coll = Chroma(collection_name=collection_name,
                   embedding_function=embeddings, client_settings=client_settings)
     if isinstance(value, str):
@@ -235,8 +245,6 @@ def chroma_save(value, args):
 @extract_value_args(_request=request)
 def chroma_delete(value, args):
     collection_name = args.get("collection_name") or args.get("new_collection_name")
-    client_settings = Settings(chroma_api_impl="rest", chroma_server_host="langchain_ext_chromadb",
-                               chroma_server_http_port="8000")
     coll = Chroma(collection_name=collection_name, client_settings=client_settings)
     coll.delete_collection()
     # coll.persist()
@@ -244,8 +252,6 @@ def chroma_delete(value, args):
     return jsonify(f'{collection_name} deleted')
 @app.route("/chroma_collections", methods=["GET"])
 def collections():
-    client_settings = Settings(chroma_api_impl="rest", chroma_server_host="langchain_ext_chromadb",
-                               chroma_server_http_port="8000")
 
     client = chromadb.Client(client_settings)
 
@@ -262,23 +268,27 @@ def qa(value, args):
     max_tokens = int(args.get("max_tokens", 256))
     chain_type = args.get('chain_type', 'stuff')
     n_sources = int(args.get('n_sources', 1))
+    retriever_type = args.get('retriever_type', 'similarity')
+    score_threshold = float(args.get('score_threshold', .2))
+
 
 
     logger.debug(f'ARGS: {args}')
 
-    client_settings = Settings(chroma_api_impl="rest", chroma_server_host="langchain_ext_chromadb",
-                               chroma_server_http_port="8000")
-
     docsearch = Chroma(collection_name=collection_name, client_settings=client_settings)
 
-    llm = OpenAI(model_name=model_name, max_tokens=max_tokens, temperature=temperature)
+    if model_name in chatopenai_models:
+        llm = ChatOpenAI(model_name=model_name, max_tokens=max_tokens, temperature=temperature)
+    else:
+        llm = OpenAI(model_name=model_name, max_tokens=max_tokens, temperature=temperature)
 
-    qa = OpenAIQAModel(llm, chain_type, docsearch, n_sources)
+    qa = OpenAIQAModel(llm, chain_type, docsearch, n_sources, retriever_type, score_threshold)
 
     result = qa(value)
     logger.debug(result)
-    return jsonify(dict(answer=result['answer'],
-                        sources=[dict(page_content=s.page_content, source=json.loads(s.metadata['source'])) for s in result['source_documents']]))
+    return jsonify(dict(answer=result['result'],
+                        sources=[dict(page_content=s.page_content, source=json.loads(s.metadata['source']))
+                                 for s in result['source_documents']]))
 
 
 app.register_error_handler(Exception, handle_invalid_usage)
