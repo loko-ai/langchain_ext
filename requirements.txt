@@ -7,4 +7,4 @@ openai
 beautifulsoup4
 tiktoken
 faiss-cpu
-chromadb
+chromadb == 0.3.26
