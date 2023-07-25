@@ -107,7 +107,7 @@ qa = Component("LLM QA", inputs=[Input("input", service="qa")],
                                     type="number", value=256),
                                 Arg(name="temperature", description="How creative the model should be.",
                                     type="number", value=1.0),
-                                Select(name="chain_type", options=["stuff", "map_reduce", "refine", "map-rerank"],
+                                Select(name="chain_type", options=["stuff", "map_reduce", "refine", "map_rerank"],
                                        value="stuff"),
                                 Arg(name="n_sources", type="number", value=1),
                                 Select(name="retriever_type",
@@ -269,7 +269,7 @@ def qa(value, args):
     chain_type = args.get('chain_type', 'stuff')
     n_sources = int(args.get('n_sources', 1))
     retriever_type = args.get('retriever_type', 'similarity')
-    score_threshold = float(args.get('score_threshold', .2))
+    score_threshold = float(args.get('score_threshold') or .8)
 
 
 
