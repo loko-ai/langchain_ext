@@ -84,7 +84,7 @@ The **LLM QA** component allows to interact with Large Language Models basing on
 
 <p align="center"><img src="https://github.com/Cecinamo/ner/assets/30443495/c17f3427-e159-4984-869f-df15315cb5d7" width="80%" /></p>
 
-Within the block you can set a **collection name** to retrieve the sources necessary for processing the query, 
+Within the block you can set a **Chroma collection name** to retrieve the sources necessary for processing the query, 
 the **LLM model** you want to use to answer, the **maximum number of tokens** to generate in the  completion and the 
 model **temperature**, representing the randomness of the answers.
 
@@ -114,7 +114,7 @@ In the file *config.json* you can set the **OPENAI API KEY** and configure the *
   },
   "side_containers": {
     "chromadb": {
-      "image": "livetechprove/chromadb",
+      "image": "lokoai/chromadb",
       "environment": {
         "ANONYMIZED_TELEMETRY": "False",
         "ALLOW_RESET": "True",
