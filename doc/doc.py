@@ -65,6 +65,32 @@ Output:
 
 '''
 
+chroma_doc = '''### Description
+The **Chroma** component allows to save and delete ChromaDB collections.
+
+The stored documents are previously split into chunks and vectorized by the component. 
+
+### Configuration
+
+- **collection_name** sets the chroma collection name.
+- **chunk_size** parameter sets the maximum number of characters of a single chunk (portion of a document).
+- **chunk_overlap** represents the overlap between chunks. 
+- **embeddings_model** represents the model used to vectorize the document's chunks.
+
+### Input
+
+In order to store documents into a ChromaDB collection, the component requires a list of dictionaries. Each dictionary 
+represents a single document containing the *text* of the document and its *metadata*.
+
+Example:
+
+```
+docs = [dict(text=doc['text'], metadata=dict(source=dict(fname=doc['fname']) for doc in docs]
+``` 
+
+'''
+
+
 llm_qa_doc = '''### Description
 The **LLM QA** component allows to interact with Large Language Models basing on provided documents.
 
@@ -76,11 +102,13 @@ The **LLM QA** component allows to interact with Large Language Models basing on
 possible given the prompt and the models maximal context size.
 - **temperature** represents how creative the model should be. Lower values make the model more deterministic.
 - **chain_type** parameter:
-    - The **stuff** uses all documents in the prompt; 
-    - The **map_reduce** separates documents into batches, the final answer is based on the answers from each batch;
-    - The **refine** separates documents into batches, it refines the answer going through all the batches.
-    - **map_rerank** separates documents into batches and assigns scores to the answers, the final answer is based on 
-    the high-scored answer from each batch. 
-- **n_sources** represents the number of documents used to answer to the query.
+    - The **stuff** method uses all sources in the prompt; 
+    - The **map_reduce** method separates sources into batches, the final answer is based on the answers from each 
+    batch;
+    - The **refine** method separates sources into batches, it refines the answer going through all the batches.
+    - **map_rerank** method separates sources into batches and assigns scores to the answers, the final answer is based 
+    on the high-scored answer from each batch. 
+- **n_sources** represents the number of sources used to answer to the query.
+- **retriever_type** sets the measurement used to retrieve the relevant sources.
 
 '''

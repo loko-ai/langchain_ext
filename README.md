@@ -58,16 +58,74 @@ Output:
 }
 ```
 
+### Chroma
+
+The **Chroma** component allows to save and delete ChromaDB collections.
+
+The stored documents are previously split into chunks and vectorized by the component.
+
+<p align="center"><img src="https://github.com/Cecinamo/ner/assets/30443495/fd7ae18c-9094-4016-b46f-1eef9fd56f12" width="80%" /></p>
+
+Within the block you can set the **collection_name**, the **chunk_size** and **chunk_overlap** of the document's splits 
+and the **embedding_model** used to vectorize the document's chunks.
+
+In order to store documents into a ChromaDB collection, the component requires a list of dictionaries. Each dictionary 
+represents a single document containing the *text* of the document and its *metadata*.
+
+Example:
+
+```
+docs = [dict(text=doc['text'], metadata=dict(source=dict(fname=doc['fname']) for doc in docs]
+``` 
+
+### LMM QA
+
+The **LLM QA** component allows to interact with Large Language Models basing on provided documents.
+
+<p align="center"><img src="https://github.com/Cecinamo/ner/assets/30443495/c17f3427-e159-4984-869f-df15315cb5d7" width="80%" /></p>
+
+Within the block you can set a **collection name** to retrieve the sources necessary for processing the query, 
+the **LLM model** you want to use to answer, the **maximum number of tokens** to generate in the  completion and the 
+model **temperature**, representing the randomness of the answers.
+
+Each model has a maximum context length, meaning that when you need a high **number of sources** to answer to the query, 
+you'll need to split the prompt into batches. Using the **chain type** parameter you can choose one of the following
+methods:
+- The **stuff** method uses all sources in the prompt;
+- The **map_reduce** method separates sources into batches, the final answer is based on the answers from each 
+batch;
+- The **refine** method separates sources into batches, it refines the answer going through all the batches.
+- **map_rerank** method separates sources into batches and assigns scores to the answers, the final answer is based 
+on the high-scored answer from each batch.
+
+Finally, you can set the measurement used to retrieve the relevant sources, which is the **retriever type**. 
+
 
 ## Configuration
 
-In the file *config.json* you can set the **OPENAI API KEY**:
+In the file *config.json* you can set the **OPENAI API KEY** and configure the **chromadb**:
 
 ```
 {
   "main": {
     "environment": {
       "OPENAI_API_KEY": "<insert your OPENAI API KEY here>"
+    }
+  },
+  "side_containers": {
+    "chromadb": {
+      "image": "livetechprove/chromadb",
+      "environment": {
+        "ANONYMIZED_TELEMETRY": "False",
+        "ALLOW_RESET": "True",
+        "IS_PERSISTENT": "TRUE"
+      },
+      "volumes": [
+        "/var/opt/loko/chromadb/chroma:/chroma/chroma"
+      ],
+      "ports": {
+        "8000": null
+      }
     }
   }
 }

@@ -376,7 +376,7 @@
  },
  {
   "name": "Chroma",
-  "description": "",
+  "description": "### Description\nThe **Chroma** component allows to save and delete ChromaDB collections.\n\nThe stored documents are previously split into chunks and vectorized by the component. \n\n### Configuration\n\n- **collection_name** sets the chroma collection name.\n- **chunk_size** parameter sets the maximum number of characters of a single chunk (portion of a document).\n- **chunk_overlap** represents the overlap between chunks. \n- **embeddings_model** represents the model used to vectorize the document's chunks.\n\n### Input\n\nIn order to store documents into a ChromaDB collection, the component requires a list of dictionaries. Each dictionary \nrepresents a single document containing the *text* of the document and its *metadata*.\n\nExample:\n\n```\ndocs = [dict(text=doc['text'], metadata=dict(source=dict(fname=doc['fname']) for doc in docs]\n``` \n\n",
   "group": "Custom",
   "icon": "RiCheckboxBlankCircleFill",
   "click": null,
@@ -491,7 +491,7 @@
  },
  {
   "name": "LLM QA",
-  "description": "### Description\nThe **LLM QA** component allows to interact with Large Language Models basing on provided documents.\n\n### Configuration\n\n- **collection_name** sets the chroma collection used to answer to the query.\n- **model_name** parameter sets the model you want to use.\n- **max_tokens** represents the maximum number of tokens to generate in the completion. 1 returns as many tokens as \npossible given the prompt and the models maximal context size.\n- **temperature** represents how creative the model should be. Lower values make the model more deterministic.\n- **chain_type** parameter:\n    - The **stuff** uses all documents in the prompt; \n    - The **map_reduce** separates documents into batches, the final answer is based on the answers from each batch;\n    - The **refine** separates documents into batches, it refines the answer going through all the batches.\n    - **map_rerank** separates documents into batches and assigns scores to the answers, the final answer is based on \n    the high-scored answer from each batch. \n- **n_sources** represents the number of documents used to answer to the query.\n\n",
+  "description": "### Description\nThe **LLM QA** component allows to interact with Large Language Models basing on provided documents.\n\n### Configuration\n\n- **collection_name** sets the chroma collection used to answer to the query.\n- **model_name** parameter sets the model you want to use.\n- **max_tokens** represents the maximum number of tokens to generate in the completion. 1 returns as many tokens as \npossible given the prompt and the models maximal context size.\n- **temperature** represents how creative the model should be. Lower values make the model more deterministic.\n- **chain_type** parameter:\n    - The **stuff** method uses all sources in the prompt; \n    - The **map_reduce** method separates sources into batches, the final answer is based on the answers from each \n    batch;\n    - The **refine** method separates sources into batches, it refines the answer going through all the batches.\n    - **map_rerank** method separates sources into batches and assigns scores to the answers, the final answer is based \n    on the high-scored answer from each batch. \n- **n_sources** represents the number of sources used to answer to the query.\n- **retriever_type** sets the measurement used to retrieve the relevant sources.\n\n",
   "group": "Custom",
   "icon": "RiCheckboxBlankCircleFill",
   "click": null,
@@ -598,7 +598,7 @@
       "stuff",
       "map_reduce",
       "refine",
-      "map-rerank"
+      "map_rerank"
      ]
     },
     {

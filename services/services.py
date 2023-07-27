@@ -8,7 +8,7 @@ from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import Chroma
 from werkzeug.exceptions import NotFound
 
-from doc.doc import llm_doc, llm_summary_doc, html_doc, llm_parser_doc, llm_qa_doc
+from doc.doc import llm_doc, llm_summary_doc, html_doc, llm_parser_doc, llm_qa_doc, chroma_doc
 from flask import Flask, request, jsonify
 from langchain import OpenAI
 from langchain.chains.summarize import load_summarize_chain
@@ -93,7 +93,8 @@ chroma = Component("Chroma", inputs=[Input("save", service="chroma_save", to="sa
                          Arg(name="chunk_size", value=700, type="number"),
                          Arg(name="chunk_overlap", value=70, type="number"),
                          Arg(name='embeddings_model', value='text-embedding-ada-002')
-                         ])
+                         ],
+                   description=chroma_doc)
 
 qa = Component("LLM QA", inputs=[Input("input", service="qa")],
                           args=[AsyncSelect(name="collection_name",

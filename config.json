@@ -2,10 +2,7 @@
   "main": {
     "environment": {
       "OPENAI_API_KEY": "<insert your OPENAI API KEY here>"
-    },
-    "volumes": [
-      "/var/opt/loko/langchain/resources/:/plugin/resources/"
-    ]
+    }
   },
   "side_containers": {
     "chromadb": {
@@ -16,8 +13,7 @@
         "IS_PERSISTENT": "TRUE"
       },
       "volumes": [
-        "/var/opt/loko/chromadb/chroma:/chroma/chroma",
-        "/var/opt/loko/chromadb/index:/index_data"
+        "/var/opt/loko/chromadb/chroma:/chroma/chroma"
       ],
       "ports": {
         "8000": null
