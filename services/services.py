@@ -22,6 +22,7 @@ from loko_extensions.model.components import Component, Arg, save_extensions, In
 from model.memory_model import OpenAIModelMemory
 from model.parser_model import OpenAIParserModel
 from model.qa_model import OpenAIQAModel
+from utils.tokens_utils import num_tokens_from_string
 
 app = Flask("")
 
@@ -30,6 +31,13 @@ models = ['ada', 'babbage', 'code-cushman-001', 'code-cushman-002', 'code-davinc
           'text-ada-001', 'text-babbage-001', 'text-curie-001', 'text-davinci-002', 'text-davinci-003']
 
 chatopenai_models = ['gpt-3.5-turbo', 'gpt-3.5-turbo-0301']
+
+default_template = """Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer.
+
+{context}
+
+Question: {question}
+Answer in Italian:"""
 
 c = Component("LLM", args=[Select(name="model_name", options=models, value="text-davinci-003",
                                   description="Model name to use."),
@@ -116,7 +124,9 @@ qa = Component("LLM QA", inputs=[Input("input", service="qa")],
                                        value="similarity"),
                                 Dynamic(name="score_threshold", parent="retriever_type",
                                         condition="{parent}==='similarity_score_threshold'",
-                                        dynamicType="number", value=.2)
+                                        dynamicType="number", value=.2),
+                                Arg(name="prompt_template", description="Template for the LLM",
+                                    type="area", value=default_template)
                                 ],
                configured=False,
                description=llm_qa_doc)
@@ -225,16 +235,16 @@ def chroma_save(value, args):
     model = args.get('embeddings_model', 'text-embedding-ada-002')
     embeddings = OpenAIEmbeddings(model=model)
     coll = Chroma(collection_name=collection_name,
-                  embedding_function=embeddings, client_settings=client_settings)
+                  embedding_function=embeddings, client_settings=client_settings,
+                  collection_metadata=dict(embeddings=json.dumps(dict(model=model))))
     if isinstance(value, str):
         value = [dict(text=value, metadata=dict(source='no source'))]
     texts = [doc['text'] for doc in value]
-    embeddings_bp = dict(model=model)
-    metadatas = [dict(source=json.dumps(doc['metadata']['source']), embeddings=json.dumps(embeddings_bp)) for doc in value]
+    metadatas = [dict(source=json.dumps(doc['metadata']['source'])) for doc in value]
 
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size,
                                                    chunk_overlap=chunk_overlap,
-                                                   length_function=len)
+                                                   length_function=num_tokens_from_string)
     splitted_docs = text_splitter.create_documents(texts=texts, metadatas=metadatas)
     logger.debug(f'SPLITS: {len(splitted_docs)}')
     coll.add_documents(splitted_docs)
@@ -271,6 +281,7 @@ def qa(value, args):
     n_sources = int(args.get('n_sources', 1))
     retriever_type = args.get('retriever_type', 'similarity')
     score_threshold = float(args.get('score_threshold') or .8)
+    prompt_template = args.get('prompt_template')
 
 
 
@@ -283,7 +294,7 @@ def qa(value, args):
     else:
         llm = OpenAI(model_name=model_name, max_tokens=max_tokens, temperature=temperature)
 
-    qa = OpenAIQAModel(llm, chain_type, docsearch, n_sources, retriever_type, score_threshold)
+    qa = OpenAIQAModel(llm, chain_type, docsearch, n_sources, retriever_type, score_threshold, prompt_template)
 
     result = qa(value)
     logger.debug(result)

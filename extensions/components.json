@@ -491,7 +491,7 @@
  },
  {
   "name": "LLM QA",
-  "description": "### Description\nThe **LLM QA** component allows to interact with Large Language Models basing on provided documents.\n\n### Configuration\n\n- **collection_name** sets the chroma collection used to answer to the query.\n- **model_name** parameter sets the model you want to use.\n- **max_tokens** represents the maximum number of tokens to generate in the completion. 1 returns as many tokens as \npossible given the prompt and the models maximal context size.\n- **temperature** represents how creative the model should be. Lower values make the model more deterministic.\n- **chain_type** parameter:\n    - The **stuff** method uses all sources in the prompt; \n    - The **map_reduce** method separates sources into batches, the final answer is based on the answers from each \n    batch;\n    - The **refine** method separates sources into batches, it refines the answer going through all the batches.\n    - **map_rerank** method separates sources into batches and assigns scores to the answers, the final answer is based \n    on the high-scored answer from each batch. \n- **n_sources** represents the number of sources used to answer to the query.\n- **retriever_type** sets the measurement used to retrieve the relevant sources.\n\n",
+  "description": "### Description\nThe **LLM QA** component allows to interact with Large Language Models basing on provided documents.\n\n### Configuration\n\n- **collection_name** sets the chroma collection used to answer to the query.\n- **model_name** parameter sets the model you want to use.\n- **max_tokens** represents the maximum number of tokens to generate in the completion. 1 returns as many tokens as \npossible given the prompt and the models maximal context size.\n- **temperature** represents how creative the model should be. Lower values make the model more deterministic.\n- **chain_type** parameter:\n    - The **stuff** method uses all sources in the prompt; \n    - The **map_reduce** method separates sources into batches, the final answer is based on the answers from each \n    batch;\n    - The **refine** method separates sources into batches, it refines the answer going through all the batches.\n    - **map_rerank** method separates sources into batches and assigns scores to the answers, the final answer is based \n    on the high-scored answer from each batch. \n- **n_sources** represents the number of sources used to answer to the query.\n- **retriever_type** sets the measurement used to retrieve the relevant sources.\n- **prompt_template** sets the template for the LLM.\n",
   "group": "Custom",
   "icon": "RiCheckboxBlankCircleFill",
   "click": null,
@@ -520,7 +520,8 @@
     "chain_type": "stuff",
     "n_sources": 1,
     "retriever_type": "similarity",
-    "score_threshold": 0.2
+    "score_threshold": 0.2,
+    "prompt_template": "Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer.\n\n{context}\n\nQuestion: {question}\nAnswer in Italian:"
    },
    "args": [
     {
@@ -641,6 +642,16 @@
      "options": null,
      "fields": null,
      "url": null
+    },
+    {
+     "name": "prompt_template",
+     "type": "area",
+     "label": "prompt_template",
+     "helper": "",
+     "group": "",
+     "value": "Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer.\n\n{context}\n\nQuestion: {question}\nAnswer in Italian:",
+     "description": "Template for the LLM",
+     "validation": null
     }
    ]
   }

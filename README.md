@@ -82,11 +82,12 @@ docs = [dict(text=doc['text'], metadata=dict(source=dict(fname=doc['fname']) for
 
 The **LLM QA** component allows to interact with Large Language Models basing on provided documents.
 
-<p align="center"><img src="https://github.com/Cecinamo/ner/assets/30443495/c17f3427-e159-4984-869f-df15315cb5d7" width="80%" /></p>
+<p align="center"><img src="https://github.com/loko-ai/langchain_ext/assets/30443495/8795f0c0-edd4-41fc-8586-894511e79c5c" width="80%" /></p>
 
 Within the block you can set a **Chroma collection name** to retrieve the sources necessary for processing the query, 
-the **LLM model** you want to use to answer, the **maximum number of tokens** to generate in the  completion and the 
-model **temperature**, representing the randomness of the answers.
+the **LLM model** you want to use to answer, the **maximum number of tokens** to generate in the  completion, the 
+model **temperature**, representing the randomness of the answers and the **prompt_template**, representing the template
+used by the LLM.
 
 Each model has a maximum context length, meaning that when you need a high **number of sources** to answer to the query, 
 you'll need to split the prompt into batches. Using the **chain type** parameter you can choose one of the following
