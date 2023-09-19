@@ -27,8 +27,8 @@ from utils.tokens_utils import num_tokens_from_string
 app = Flask("")
 
 models = ['ada', 'babbage', 'code-cushman-001', 'code-cushman-002', 'code-davinci-001', 'code-davinci-002', 'curie',
-          'davinci', 'gpt-3.5-turbo', 'gpt-3.5-turbo-0301', 'gpt-4', 'gpt-4-0314', 'gpt-4-32k', 'gpt-4-32k-0314',
-          'text-ada-001', 'text-babbage-001', 'text-curie-001', 'text-davinci-002', 'text-davinci-003']
+          'davinci', 'gpt-3.5-turbo', 'gpt-3.5-turbo-0301', 'gpt-3.5-turbo-instruct', 'gpt-4', 'gpt-4-0314',
+          'gpt-4-32k', 'gpt-4-32k-0314', 'text-ada-001', 'text-babbage-001', 'text-curie-001', 'text-davinci-002', 'text-davinci-003']
 
 chatopenai_models = ['gpt-3.5-turbo', 'gpt-3.5-turbo-0301']
 
