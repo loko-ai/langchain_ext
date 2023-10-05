@@ -1,7 +1,7 @@
 {
   "main": {
     "environment": {
-      "OPENAI_API_KEY": "<insert your OPENAI API KEY here>"
+      "OPENAI_API_KEY": "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"
     }
   },
   "side_containers": {

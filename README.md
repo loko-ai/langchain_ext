@@ -86,7 +86,7 @@ The **LLM QA** component allows to interact with Large Language Models basing on
 
 Within the block you can set a **Chroma collection name** to retrieve the sources necessary for processing the query, 
 the **LLM model** you want to use to answer, the **maximum number of tokens** to generate in the  completion, the 
-model **temperature**, representing the randomness of the answers and the **prompt_template**, representing the template
+model **temperature**, representing the randomness of the answers and the **question_template**, representing the template
 used by the LLM.
 
 Each model has a maximum context length, meaning that when you need a high **number of sources** to answer to the query, 

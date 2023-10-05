@@ -32,11 +32,8 @@ models = ['ada', 'babbage', 'code-cushman-001', 'code-cushman-002', 'code-davinc
 
 chatopenai_models = ['gpt-3.5-turbo', 'gpt-3.5-turbo-0301']
 
-default_template = """Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer.
-
-{context}
-
-Question: {question}
+default_template = """
+{question}
 Answer in Italian:"""
 
 c = Component("LLM", args=[Select(name="model_name", options=models, value="text-davinci-003",
@@ -125,7 +122,7 @@ qa = Component("LLM QA", inputs=[Input("input", service="qa")],
                                 Dynamic(name="score_threshold", parent="retriever_type",
                                         condition="{parent}==='similarity_score_threshold'",
                                         dynamicType="number", value=.2),
-                                Arg(name="prompt_template", description="Template for the LLM",
+                                Arg(name="question_template", description="Template for the LLM",
                                     type="area", value=default_template)
                                 ],
                configured=False,
@@ -281,7 +278,7 @@ def qa(value, args):
     n_sources = int(args.get('n_sources', 1))
     retriever_type = args.get('retriever_type', 'similarity')
     score_threshold = float(args.get('score_threshold') or .8)
-    prompt_template = args.get('prompt_template')
+    question_template = args.get('question_template')
 
 
 
@@ -294,7 +291,7 @@ def qa(value, args):
     else:
         llm = OpenAI(model_name=model_name, max_tokens=max_tokens, temperature=temperature)
 
-    qa = OpenAIQAModel(llm, chain_type, docsearch, n_sources, retriever_type, score_threshold, prompt_template)
+    qa = OpenAIQAModel(llm, chain_type, docsearch, n_sources, retriever_type, score_threshold, question_template)
 
     result = qa(value)
     logger.debug(result)

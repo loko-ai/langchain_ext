@@ -110,5 +110,5 @@ possible given the prompt and the models maximal context size.
     on the high-scored answer from each batch. 
 - **n_sources** represents the number of sources used to answer to the query.
 - **retriever_type** sets the measurement used to retrieve the relevant sources.
-- **prompt_template** sets the template for the LLM.
+- **question_template** sets the template for the LLM.
 '''
