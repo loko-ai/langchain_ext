@@ -26,9 +26,13 @@ from utils.tokens_utils import num_tokens_from_string
 
 app = Flask("")
 
-models = ['ada', 'babbage', 'code-cushman-001', 'code-cushman-002', 'code-davinci-001', 'code-davinci-002', 'curie',
-          'davinci', 'gpt-3.5-turbo', 'gpt-3.5-turbo-0301', 'gpt-3.5-turbo-instruct', 'gpt-4', 'gpt-4-0314',
-          'gpt-4-32k', 'gpt-4-32k-0314', 'text-ada-001', 'text-babbage-001', 'text-curie-001', 'text-davinci-002', 'text-davinci-003']
+frameworks = ['openai', 'gpt4all']
+openai_models = ['ada', 'babbage', 'code-cushman-001', 'code-cushman-002', 'code-davinci-001', 'code-davinci-002',
+                 'curie', 'davinci', 'gpt-3.5-turbo', 'gpt-3.5-turbo-0301', 'gpt-3.5-turbo-instruct', 'gpt-4',
+                 'gpt-4-0314', 'gpt-4-32k', 'gpt-4-32k-0314', 'text-ada-001', 'text-babbage-001', 'text-curie-001',
+                 'text-davinci-002', 'text-davinci-003']
+
+gpt4all_models = ['orca-mini-7b', 'llama-2-7b-chat']
 
 chatopenai_models = ['gpt-3.5-turbo', 'gpt-3.5-turbo-0301']
 
@@ -36,8 +40,13 @@ default_template = """
 {question}
 Answer in Italian:"""
 
-c = Component("LLM", args=[Select(name="model_name", options=models, value="text-davinci-003",
-                                  description="Model name to use."),
+c = Component("LLM", args=[Select(name="framework", options=frameworks, value='openai'),
+                           Dynamic(name="openai_model_name", label="model_name", parent="framework",
+                                   dynamicType="select", condition="{parent}==='openai'", options=openai_models,
+                                   value="text-davinci-003", description="Model name to use."),
+                           Dynamic(name="gpt4all_model_name", label="model_name", parent="framework",
+                                   dynamicType="select", condition="{parent}==='gpt4all'", options=gpt4all_models,
+                                   value="orca-mini-7b", description="Model name to use."),
                            Arg(name="max_tokens", description="The maximum number of tokens to generate in the "
                                                               "completion. -1 returns as many tokens as possible "
                                                               "given the prompt and the models maximal context size.",
@@ -70,7 +79,7 @@ summary = Component("LLM Summary", inputs=[Input("input", service="summary_servi
                     description=llm_summary_doc)
 
 output_parser = Component("LLM Parser", inputs=[Input("input", service="parser")],
-                          args=[Select(name="model_name", options=models, value="text-davinci-003",
+                          args=[Select(name="model_name", options=openai_models, value="text-davinci-003",
                                        description="Model name to use."),
                                 Arg(name="max_tokens", description="The maximum number of tokens to generate in the "
                                                                    "completion. -1 returns as many tokens as possible "
@@ -105,7 +114,7 @@ qa = Component("LLM QA", inputs=[Input("input", service="qa")],
                           args=[AsyncSelect(name="collection_name",
                                             url='http://localhost:9999/routes/langchain_ext/chroma_collections',
                                             value="langchain"),
-                                Select(name="model_name", options=models, value="text-davinci-003",
+                                Select(name="model_name", options=openai_models, value="text-davinci-003",
                                        description="Model name to use."),
                                 Arg(name="max_tokens", description="The maximum number of tokens to generate in the "
                                                                    "completion. -1 returns as many tokens as possible "
@@ -157,10 +166,15 @@ def handle_invalid_usage(exception):
 @extract_value_args(_request=request)
 def respond(value, args):
     temperature = args.get("temperature", 1)
-    model_name = args.get("model_name", "text-davinci-003")
+    framework = args.get("framework", "openai")
     max_tokens = args.get("max_tokens", 256)
     memory = args.get("memory")
     logger.debug(value)
+    if framework=='openai':
+        model_name = args.get("openai_model_name", "text-davinci-003")
+    else:
+        model_name = args.get("gpt4all_model_name", "orca-mini-7b")
+        model_name = f'{model_name}.ggmlv3.q4_0.bin'
     llm = OpenAI(model_name=model_name, max_tokens=int(max_tokens), temperature=float(temperature))
     if memory:
         logger.debug(f'ARGS: {args}')

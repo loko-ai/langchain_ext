@@ -2,7 +2,10 @@
   "main": {
     "environment": {
       "OPENAI_API_KEY": "<insert your OPENAI API KEY here>"
-    }
+    },
+    "volumes": [
+      "/home/cecilia/.cache/gpt4all:/root/.cache/gpt4all"
+    ]
   },
   "side_containers": {
     "chromadb": {

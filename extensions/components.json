@@ -23,7 +23,9 @@
   ],
   "options": {
    "values": {
-    "model_name": "text-davinci-003",
+    "framework": "openai",
+    "openai_model_name": "text-davinci-003",
+    "gpt4all_model_name": "orca-mini-7b",
     "max_tokens": 256,
     "temperature": 1.0,
     "windows_k": 5,
@@ -33,14 +35,31 @@
    },
    "args": [
     {
-     "name": "model_name",
+     "name": "framework",
      "type": "select",
+     "label": "framework",
+     "helper": "",
+     "group": "",
+     "value": "openai",
+     "description": "",
+     "validation": null,
+     "options": [
+      "openai",
+      "gpt4all"
+     ]
+    },
+    {
+     "name": "openai_model_name",
+     "type": "dynamic",
      "label": "model_name",
      "helper": "",
      "group": "",
      "value": "text-davinci-003",
      "description": "Model name to use.",
      "validation": null,
+     "parent": "framework",
+     "condition": "{parent}==='openai'",
+     "dynamicType": "select",
      "options": [
       "ada",
       "babbage",
@@ -62,7 +81,28 @@
       "text-curie-001",
       "text-davinci-002",
       "text-davinci-003"
-     ]
+     ],
+     "fields": null,
+     "url": null
+    },
+    {
+     "name": "gpt4all_model_name",
+     "type": "dynamic",
+     "label": "model_name",
+     "helper": "",
+     "group": "",
+     "value": "orca-mini-7b",
+     "description": "Model name to use.",
+     "validation": null,
+     "parent": "framework",
+     "condition": "{parent}==='gpt4all'",
+     "dynamicType": "select",
+     "options": [
+      "orca-mini-7b",
+      "llama-2-7b-chat"
+     ],
+     "fields": null,
+     "url": null
     },
     {
      "name": "max_tokens",

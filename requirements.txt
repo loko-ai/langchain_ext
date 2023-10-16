@@ -2,10 +2,11 @@ Flask
 loko-extensions
 loko-client
 loguru
-langchain
+langchain == 0.0.294
 openai
 beautifulsoup4
 tiktoken
 faiss-cpu
 chromadb == 0.3.26
 pydantic == 1.10.11
+gpt4all
