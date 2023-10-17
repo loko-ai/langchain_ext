@@ -1,10 +1,12 @@
 import json
+from functools import lru_cache
 
 import chromadb
 from bs4 import BeautifulSoup
 from chromadb import Settings
 from langchain.chat_models import ChatOpenAI
 from langchain.embeddings import OpenAIEmbeddings
+from langchain.llms import GPT4All
 from langchain.vectorstores import Chroma
 from werkzeug.exceptions import NotFound
 
@@ -51,8 +53,9 @@ c = Component("LLM", args=[Select(name="framework", options=frameworks, value='o
                                                               "completion. -1 returns as many tokens as possible "
                                                               "given the prompt and the models maximal context size.",
                                type="number", value=256),
-                           Arg(name="temperature", description="How creative the model should be.",
-                               type="number", value=1.0),
+                           Dynamic(name="temperature", description="How creative the model should be.",
+                                   dynamicType="number", value=1.0, parent="framework",
+                                   condition="{parent}==='openai'"),
                            Arg(name="memory", type="boolean", value=False),
                            Dynamic(name="type", dynamicType="select", parent="memory",
                                    options=["windows", "summaries", "vectors"],
@@ -74,19 +77,39 @@ c = Component("LLM", args=[Select(name="framework", options=frameworks, value='o
               )
 html = Component("HTML2Text", inputs=[Input("input", service="html2text")], configured=True, description=html_doc)
 summary = Component("LLM Summary", inputs=[Input("input", service="summary_service")],
-                    args=[Arg(name="chunk_size", value=700, type="number"),
+                    args=[Select(name="framework", options=frameworks, value='openai'),
+                          Dynamic(name="openai_model_name", label="model_name", parent="framework",
+                                  dynamicType="select", condition="{parent}==='openai'", options=openai_models,
+                                  value="text-davinci-003", description="Model name to use."),
+                          Dynamic(name="gpt4all_model_name", label="model_name", parent="framework",
+                                  dynamicType="select", condition="{parent}==='gpt4all'", options=gpt4all_models,
+                                  value="orca-mini-7b", description="Model name to use."),
+                          Arg(name="max_tokens", description="The maximum number of tokens to generate in the "
+                                                             "completion. -1 returns as many tokens as possible "
+                                                             "given the prompt and the models maximal context size.",
+                              type="number", value=256),
+                          Dynamic(name="temperature", description="How creative the model should be.",
+                                  dynamicType="number", value=1.0, parent="framework",
+                                  condition="{parent}==='openai'"),
+                          Arg(name="chunk_size", value=700, type="number"),
                           Arg(name="chunk_overlap", value=70, type="number")],
                     description=llm_summary_doc)
 
 output_parser = Component("LLM Parser", inputs=[Input("input", service="parser")],
-                          args=[Select(name="model_name", options=openai_models, value="text-davinci-003",
-                                       description="Model name to use."),
+                          args=[Select(name="framework", options=frameworks, value='openai'),
+                                Dynamic(name="openai_model_name", label="model_name", parent="framework",
+                                        dynamicType="select", condition="{parent}==='openai'", options=openai_models,
+                                        value="text-davinci-003", description="Model name to use."),
+                                Dynamic(name="gpt4all_model_name", label="model_name", parent="framework",
+                                        dynamicType="select", condition="{parent}==='gpt4all'", options=gpt4all_models,
+                                        value="orca-mini-7b", description="Model name to use."),
                                 Arg(name="max_tokens", description="The maximum number of tokens to generate in the "
                                                                    "completion. -1 returns as many tokens as possible "
                                                                    "given the prompt and the models maximal context size.",
                                     type="number", value=256),
-                                Arg(name="temperature", description="How creative the model should be.",
-                                    type="number", value=1.0),
+                                Dynamic(name="temperature", description="How creative the model should be.",
+                                        dynamicType="number", value=1.0, parent="framework",
+                                        condition="{parent}==='openai'"),
                                 MultiKeyValue(name='model',
                                               fields=[MKVField(name='field_name', required=True),
                                                       MKVField(name='field_type', required=True),
@@ -114,14 +137,20 @@ qa = Component("LLM QA", inputs=[Input("input", service="qa")],
                           args=[AsyncSelect(name="collection_name",
                                             url='http://localhost:9999/routes/langchain_ext/chroma_collections',
                                             value="langchain"),
-                                Select(name="model_name", options=openai_models, value="text-davinci-003",
-                                       description="Model name to use."),
+                                Select(name="framework", options=frameworks, value='openai'),
+                                Dynamic(name="openai_model_name", label="model_name", parent="framework",
+                                        dynamicType="select", condition="{parent}==='openai'", options=openai_models,
+                                        value="text-davinci-003", description="Model name to use."),
+                                Dynamic(name="gpt4all_model_name", label="model_name", parent="framework",
+                                        dynamicType="select", condition="{parent}==='gpt4all'", options=gpt4all_models,
+                                        value="orca-mini-7b", description="Model name to use."),
                                 Arg(name="max_tokens", description="The maximum number of tokens to generate in the "
                                                                    "completion. -1 returns as many tokens as possible "
                                                                    "given the prompt and the models maximal context size.",
                                     type="number", value=256),
-                                Arg(name="temperature", description="How creative the model should be.",
-                                    type="number", value=1.0),
+                                Dynamic(name="temperature", description="How creative the model should be.",
+                                        dynamicType="number", value=1.0, parent="framework",
+                                        condition="{parent}==='openai'"),
                                 Select(name="chain_type", options=["stuff", "map_reduce", "refine", "map_rerank"],
                                        value="stuff"),
                                 Arg(name="n_sources", type="number", value=1),
@@ -145,6 +174,24 @@ models = dict()
 client_settings = Settings(chroma_api_impl="rest", chroma_server_host="langchain_ext_chromadb",
                            chroma_server_http_port="8000")
 
+
+@lru_cache()
+def get_llm(**args):
+    framework = args.get("framework", "openai")
+    temperature = args.get("temperature", 1)
+    max_tokens = args.get("max_tokens", 256)
+
+    if framework == 'openai':
+        model_name = args.get("openai_model_name", "text-davinci-003")
+        llm = OpenAI(model_name=model_name, max_tokens=int(max_tokens), temperature=float(temperature))
+    else:
+        model_name = args.get("gpt4all_model_name", "orca-mini-7b")
+        model_name = f'{model_name}.ggmlv3.q4_0.bin'
+        llm = GPT4All(model=model_name, allow_download=True, max_tokens=int(max_tokens))
+
+    return llm
+
+
 def handle_invalid_usage(exception):
     e = str(exception)
     j = dict(error=e)
@@ -165,17 +212,10 @@ def handle_invalid_usage(exception):
 @app.route("/", methods=["POST"])
 @extract_value_args(_request=request)
 def respond(value, args):
-    temperature = args.get("temperature", 1)
-    framework = args.get("framework", "openai")
-    max_tokens = args.get("max_tokens", 256)
     memory = args.get("memory")
     logger.debug(value)
-    if framework=='openai':
-        model_name = args.get("openai_model_name", "text-davinci-003")
-    else:
-        model_name = args.get("gpt4all_model_name", "orca-mini-7b")
-        model_name = f'{model_name}.ggmlv3.q4_0.bin'
-    llm = OpenAI(model_name=model_name, max_tokens=int(max_tokens), temperature=float(temperature))
+    del args['headers']
+    llm = get_llm(**args)
     if memory:
         logger.debug(f'ARGS: {args}')
         memory_type = args.get('type')
@@ -207,7 +247,8 @@ def html2text(value, args):
 def summary_service(value, args):
     chunk_size = int(args.get("chunk_size"))
     chunk_overlap = int(args.get("chunk_overlap"))
-    llm = OpenAI(temperature=0.9)
+    del args['headers']
+    llm = get_llm(**args)
     ds = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
 
     docs = ds.split_documents([Document(page_content=value)])
@@ -219,14 +260,12 @@ def summary_service(value, args):
 @app.route("/parser", methods=["POST"])
 @extract_value_args(_request=request)
 def parser(value, args):
-    temperature = args.get("temperature", 1)
-    model_name = args.get("model_name", "text-davinci-003")
-    max_tokens = args.get("max_tokens", 256)
     parser_model = args.get("model")
 
     logger.debug(f'ARGS: {args}')
-
-    llm = OpenAI(model_name=model_name, max_tokens=int(max_tokens), temperature=float(temperature))
+    del args['headers']
+    del args['model']
+    llm = get_llm(**args)
     parser = OpenAIParserModel(llm=llm, fields=parser_model)
 
 
@@ -285,9 +324,6 @@ def collections():
 @extract_value_args(_request=request)
 def qa(value, args):
     collection_name = args.get("collection_name")
-    temperature = float(args.get("temperature", 1))
-    model_name = args.get("model_name", "text-davinci-003")
-    max_tokens = int(args.get("max_tokens", 256))
     chain_type = args.get('chain_type', 'stuff')
     n_sources = int(args.get('n_sources', 1))
     retriever_type = args.get('retriever_type', 'similarity')
@@ -299,11 +335,9 @@ def qa(value, args):
     logger.debug(f'ARGS: {args}')
 
     docsearch = Chroma(collection_name=collection_name, client_settings=client_settings)
+    del args['headers']
+    llm = get_llm(**args)
 
-    if model_name in chatopenai_models:
-        llm = ChatOpenAI(model_name=model_name, max_tokens=max_tokens, temperature=temperature)
-    else:
-        llm = OpenAI(model_name=model_name, max_tokens=max_tokens, temperature=temperature)
 
     qa = OpenAIQAModel(llm, chain_type, docsearch, n_sources, retriever_type, score_threshold, question_template)
 

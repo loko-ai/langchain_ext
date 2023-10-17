@@ -10,3 +10,4 @@ faiss-cpu
 chromadb == 0.3.26
 pydantic == 1.10.11
 gpt4all
+transformers

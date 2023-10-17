@@ -116,13 +116,19 @@
     },
     {
      "name": "temperature",
-     "type": "number",
+     "type": "dynamic",
      "label": "temperature",
      "helper": "",
      "group": "",
      "value": 1.0,
      "description": "How creative the model should be.",
-     "validation": null
+     "validation": null,
+     "parent": "framework",
+     "condition": "{parent}==='openai'",
+     "dynamicType": "number",
+     "options": null,
+     "fields": null,
+     "url": null
     },
     {
      "name": "memory",
@@ -272,10 +278,111 @@
   ],
   "options": {
    "values": {
+    "framework": "openai",
+    "openai_model_name": "text-davinci-003",
+    "gpt4all_model_name": "orca-mini-7b",
+    "max_tokens": 256,
+    "temperature": 1.0,
     "chunk_size": 700,
     "chunk_overlap": 70
    },
    "args": [
+    {
+     "name": "framework",
+     "type": "select",
+     "label": "framework",
+     "helper": "",
+     "group": "",
+     "value": "openai",
+     "description": "",
+     "validation": null,
+     "options": [
+      "openai",
+      "gpt4all"
+     ]
+    },
+    {
+     "name": "openai_model_name",
+     "type": "dynamic",
+     "label": "model_name",
+     "helper": "",
+     "group": "",
+     "value": "text-davinci-003",
+     "description": "Model name to use.",
+     "validation": null,
+     "parent": "framework",
+     "condition": "{parent}==='openai'",
+     "dynamicType": "select",
+     "options": [
+      "ada",
+      "babbage",
+      "code-cushman-001",
+      "code-cushman-002",
+      "code-davinci-001",
+      "code-davinci-002",
+      "curie",
+      "davinci",
+      "gpt-3.5-turbo",
+      "gpt-3.5-turbo-0301",
+      "gpt-3.5-turbo-instruct",
+      "gpt-4",
+      "gpt-4-0314",
+      "gpt-4-32k",
+      "gpt-4-32k-0314",
+      "text-ada-001",
+      "text-babbage-001",
+      "text-curie-001",
+      "text-davinci-002",
+      "text-davinci-003"
+     ],
+     "fields": null,
+     "url": null
+    },
+    {
+     "name": "gpt4all_model_name",
+     "type": "dynamic",
+     "label": "model_name",
+     "helper": "",
+     "group": "",
+     "value": "orca-mini-7b",
+     "description": "Model name to use.",
+     "validation": null,
+     "parent": "framework",
+     "condition": "{parent}==='gpt4all'",
+     "dynamicType": "select",
+     "options": [
+      "orca-mini-7b",
+      "llama-2-7b-chat"
+     ],
+     "fields": null,
+     "url": null
+    },
+    {
+     "name": "max_tokens",
+     "type": "number",
+     "label": "max_tokens",
+     "helper": "",
+     "group": "",
+     "value": 256,
+     "description": "The maximum number of tokens to generate in the completion. -1 returns as many tokens as possible given the prompt and the models maximal context size.",
+     "validation": null
+    },
+    {
+     "name": "temperature",
+     "type": "dynamic",
+     "label": "temperature",
+     "helper": "",
+     "group": "",
+     "value": 1.0,
+     "description": "How creative the model should be.",
+     "validation": null,
+     "parent": "framework",
+     "condition": "{parent}==='openai'",
+     "dynamicType": "number",
+     "options": null,
+     "fields": null,
+     "url": null
+    },
     {
      "name": "chunk_size",
      "type": "number",
@@ -323,20 +430,39 @@
   ],
   "options": {
    "values": {
-    "model_name": "text-davinci-003",
+    "framework": "openai",
+    "openai_model_name": "text-davinci-003",
+    "gpt4all_model_name": "orca-mini-7b",
     "max_tokens": 256,
     "temperature": 1.0
    },
    "args": [
     {
-     "name": "model_name",
+     "name": "framework",
      "type": "select",
+     "label": "framework",
+     "helper": "",
+     "group": "",
+     "value": "openai",
+     "description": "",
+     "validation": null,
+     "options": [
+      "openai",
+      "gpt4all"
+     ]
+    },
+    {
+     "name": "openai_model_name",
+     "type": "dynamic",
      "label": "model_name",
      "helper": "",
      "group": "",
      "value": "text-davinci-003",
      "description": "Model name to use.",
      "validation": null,
+     "parent": "framework",
+     "condition": "{parent}==='openai'",
+     "dynamicType": "select",
      "options": [
       "ada",
       "babbage",
@@ -358,7 +484,28 @@
       "text-curie-001",
       "text-davinci-002",
       "text-davinci-003"
-     ]
+     ],
+     "fields": null,
+     "url": null
+    },
+    {
+     "name": "gpt4all_model_name",
+     "type": "dynamic",
+     "label": "model_name",
+     "helper": "",
+     "group": "",
+     "value": "orca-mini-7b",
+     "description": "Model name to use.",
+     "validation": null,
+     "parent": "framework",
+     "condition": "{parent}==='gpt4all'",
+     "dynamicType": "select",
+     "options": [
+      "orca-mini-7b",
+      "llama-2-7b-chat"
+     ],
+     "fields": null,
+     "url": null
     },
     {
      "name": "max_tokens",
@@ -372,13 +519,19 @@
     },
     {
      "name": "temperature",
-     "type": "number",
+     "type": "dynamic",
      "label": "temperature",
      "helper": "",
      "group": "",
      "value": 1.0,
      "description": "How creative the model should be.",
-     "validation": null
+     "validation": null,
+     "parent": "framework",
+     "condition": "{parent}==='openai'",
+     "dynamicType": "number",
+     "options": null,
+     "fields": null,
+     "url": null
     },
     {
      "name": "model",
@@ -556,7 +709,9 @@
   "options": {
    "values": {
     "collection_name": "langchain",
-    "model_name": "text-davinci-003",
+    "framework": "openai",
+    "openai_model_name": "text-davinci-003",
+    "gpt4all_model_name": "orca-mini-7b",
     "max_tokens": 256,
     "temperature": 1.0,
     "chain_type": "stuff",
@@ -578,14 +733,31 @@
      "url": "http://localhost:9999/routes/langchain_ext/chroma_collections"
     },
     {
-     "name": "model_name",
+     "name": "framework",
      "type": "select",
+     "label": "framework",
+     "helper": "",
+     "group": "",
+     "value": "openai",
+     "description": "",
+     "validation": null,
+     "options": [
+      "openai",
+      "gpt4all"
+     ]
+    },
+    {
+     "name": "openai_model_name",
+     "type": "dynamic",
      "label": "model_name",
      "helper": "",
      "group": "",
      "value": "text-davinci-003",
      "description": "Model name to use.",
      "validation": null,
+     "parent": "framework",
+     "condition": "{parent}==='openai'",
+     "dynamicType": "select",
      "options": [
       "ada",
       "babbage",
@@ -607,7 +779,28 @@
       "text-curie-001",
       "text-davinci-002",
       "text-davinci-003"
-     ]
+     ],
+     "fields": null,
+     "url": null
+    },
+    {
+     "name": "gpt4all_model_name",
+     "type": "dynamic",
+     "label": "model_name",
+     "helper": "",
+     "group": "",
+     "value": "orca-mini-7b",
+     "description": "Model name to use.",
+     "validation": null,
+     "parent": "framework",
+     "condition": "{parent}==='gpt4all'",
+     "dynamicType": "select",
+     "options": [
+      "orca-mini-7b",
+      "llama-2-7b-chat"
+     ],
+     "fields": null,
+     "url": null
     },
     {
      "name": "max_tokens",
@@ -621,13 +814,19 @@
     },
     {
      "name": "temperature",
-     "type": "number",
+     "type": "dynamic",
      "label": "temperature",
      "helper": "",
      "group": "",
      "value": 1.0,
      "description": "How creative the model should be.",
-     "validation": null
+     "validation": null,
+     "parent": "framework",
+     "condition": "{parent}==='openai'",
+     "dynamicType": "number",
+     "options": null,
+     "fields": null,
+     "url": null
     },
     {
      "name": "chain_type",
