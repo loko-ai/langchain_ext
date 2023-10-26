@@ -7,7 +7,8 @@ from model.custom_retriever import CustomRetriever, CustomRetrievalQA
 
 @lru_cache(maxsize=1)
 def get_embedding_function(collection):
-    emb_args = json.loads(collection._collection.metadata['embeddings'])
+    # emb_args = json.loads(collection._collection.metadata['embeddings'])
+    emb_args = json.loads(collection.metadata['embeddings'])
     return OpenAIEmbeddings(**emb_args)
 
 

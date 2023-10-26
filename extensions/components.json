@@ -116,19 +116,13 @@
     },
     {
      "name": "temperature",
-     "type": "dynamic",
+     "type": "number",
      "label": "temperature",
      "helper": "",
      "group": "",
      "value": 1.0,
      "description": "How creative the model should be.",
-     "validation": null,
-     "parent": "framework",
-     "condition": "{parent}==='openai'",
-     "dynamicType": "number",
-     "options": null,
-     "fields": null,
-     "url": null
+     "validation": null
     },
     {
      "name": "memory",
@@ -369,19 +363,13 @@
     },
     {
      "name": "temperature",
-     "type": "dynamic",
+     "type": "number",
      "label": "temperature",
      "helper": "",
      "group": "",
      "value": 1.0,
      "description": "How creative the model should be.",
-     "validation": null,
-     "parent": "framework",
-     "condition": "{parent}==='openai'",
-     "dynamicType": "number",
-     "options": null,
-     "fields": null,
-     "url": null
+     "validation": null
     },
     {
      "name": "chunk_size",
@@ -519,19 +507,13 @@
     },
     {
      "name": "temperature",
-     "type": "dynamic",
+     "type": "number",
      "label": "temperature",
      "helper": "",
      "group": "",
      "value": 1.0,
      "description": "How creative the model should be.",
-     "validation": null,
-     "parent": "framework",
-     "condition": "{parent}==='openai'",
-     "dynamicType": "number",
-     "options": null,
-     "fields": null,
-     "url": null
+     "validation": null
     },
     {
      "name": "model",
@@ -814,19 +796,13 @@
     },
     {
      "name": "temperature",
-     "type": "dynamic",
+     "type": "number",
      "label": "temperature",
      "helper": "",
      "group": "",
      "value": 1.0,
      "description": "How creative the model should be.",
-     "validation": null,
-     "parent": "framework",
-     "condition": "{parent}==='openai'",
-     "dynamicType": "number",
-     "options": null,
-     "fields": null,
-     "url": null
+     "validation": null
     },
     {
      "name": "chain_type",

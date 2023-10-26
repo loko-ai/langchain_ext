@@ -1,18 +1,17 @@
 import json
 from functools import lru_cache
 
-import chromadb
 from bs4 import BeautifulSoup
-from chromadb import Settings
 from langchain.chat_models import ChatOpenAI
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.llms import GPT4All
 from langchain.vectorstores import Chroma
 from werkzeug.exceptions import NotFound
 
+from dao.chroma_dao import Chroma
 from doc.doc import llm_doc, llm_summary_doc, html_doc, llm_parser_doc, llm_qa_doc, chroma_doc
 from flask import Flask, request, jsonify
-from langchain import OpenAI
+from langchain import OpenAI, PromptTemplate, LLMChain
 from langchain.chains.summarize import load_summarize_chain
 from langchain.schema import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -53,9 +52,8 @@ c = Component("LLM", args=[Select(name="framework", options=frameworks, value='o
                                                               "completion. -1 returns as many tokens as possible "
                                                               "given the prompt and the models maximal context size.",
                                type="number", value=256),
-                           Dynamic(name="temperature", description="How creative the model should be.",
-                                   dynamicType="number", value=1.0, parent="framework",
-                                   condition="{parent}==='openai'"),
+                           Arg(name="temperature", description="How creative the model should be.", type="number",
+                               value=1.0),
                            Arg(name="memory", type="boolean", value=False),
                            Dynamic(name="type", dynamicType="select", parent="memory",
                                    options=["windows", "summaries", "vectors"],
@@ -88,9 +86,8 @@ summary = Component("LLM Summary", inputs=[Input("input", service="summary_servi
                                                              "completion. -1 returns as many tokens as possible "
                                                              "given the prompt and the models maximal context size.",
                               type="number", value=256),
-                          Dynamic(name="temperature", description="How creative the model should be.",
-                                  dynamicType="number", value=1.0, parent="framework",
-                                  condition="{parent}==='openai'"),
+                          Arg(name="temperature", description="How creative the model should be.", type="number",
+                              value=1.0),
                           Arg(name="chunk_size", value=700, type="number"),
                           Arg(name="chunk_overlap", value=70, type="number")],
                     description=llm_summary_doc)
@@ -107,9 +104,8 @@ output_parser = Component("LLM Parser", inputs=[Input("input", service="parser")
                                                                    "completion. -1 returns as many tokens as possible "
                                                                    "given the prompt and the models maximal context size.",
                                     type="number", value=256),
-                                Dynamic(name="temperature", description="How creative the model should be.",
-                                        dynamicType="number", value=1.0, parent="framework",
-                                        condition="{parent}==='openai'"),
+                                Arg(name="temperature", description="How creative the model should be.", type="number",
+                                    value=1.0),
                                 MultiKeyValue(name='model',
                                               fields=[MKVField(name='field_name', required=True),
                                                       MKVField(name='field_type', required=True),
@@ -148,9 +144,8 @@ qa = Component("LLM QA", inputs=[Input("input", service="qa")],
                                                                    "completion. -1 returns as many tokens as possible "
                                                                    "given the prompt and the models maximal context size.",
                                     type="number", value=256),
-                                Dynamic(name="temperature", description="How creative the model should be.",
-                                        dynamicType="number", value=1.0, parent="framework",
-                                        condition="{parent}==='openai'"),
+                                Arg(name="temperature", description="How creative the model should be.", type="number",
+                                    value=1.0),
                                 Select(name="chain_type", options=["stuff", "map_reduce", "refine", "map_rerank"],
                                        value="stuff"),
                                 Arg(name="n_sources", type="number", value=1),
@@ -170,15 +165,12 @@ save_extensions([c, html, summary, output_parser, chroma, qa])
 
 models = dict()
 
-# chroma settings
-client_settings = Settings(chroma_api_impl="rest", chroma_server_host="langchain_ext_chromadb",
-                           chroma_server_http_port="8000")
-
+api_url = 'langchain_ext_chromadb:8000'
 
 @lru_cache()
 def get_llm(**args):
     framework = args.get("framework", "openai")
-    temperature = args.get("temperature", 1)
+    temperature = args.get("temperature", .3)
     max_tokens = args.get("max_tokens", 256)
 
     if framework == 'openai':
@@ -187,9 +179,18 @@ def get_llm(**args):
     else:
         model_name = args.get("gpt4all_model_name", "orca-mini-7b")
         model_name = f'{model_name}.ggmlv3.q4_0.bin'
-        llm = GPT4All(model=model_name, allow_download=True, max_tokens=int(max_tokens))
+        llm = GPT4All(model=model_name, allow_download=True, max_tokens=int(max_tokens), temp=float(temperature))
 
     return llm
+
+def get_chain(llm):
+    template = """
+    Let's think step by step of the question: {question}
+    Based on all the thought the final answer becomes:
+    """
+    prompt = PromptTemplate(template=template, input_variables=["question"])
+    llm_chain = LLMChain(prompt=prompt, llm=llm)
+    return llm_chain
 
 
 def handle_invalid_usage(exception):
@@ -284,9 +285,10 @@ def chroma_save(value, args):
     chunk_overlap = int(args.get('chunk_overlap', 70))
     model = args.get('embeddings_model', 'text-embedding-ada-002')
     embeddings = OpenAIEmbeddings(model=model)
-    coll = Chroma(collection_name=collection_name,
-                  embedding_function=embeddings, client_settings=client_settings,
-                  collection_metadata=dict(embeddings=json.dumps(dict(model=model))))
+    client = Chroma(api_url=api_url)
+    coll = client.create_collection(name=collection_name,
+                                    metadata=dict(embeddings=json.dumps(dict(model=model))),
+                                    embedding_function=embeddings)
     if isinstance(value, str):
         value = [dict(text=value, metadata=dict(source='no source'))]
     texts = [doc['text'] for doc in value]
@@ -297,7 +299,7 @@ def chroma_save(value, args):
                                                    length_function=num_tokens_from_string)
     splitted_docs = text_splitter.create_documents(texts=texts, metadatas=metadatas)
     logger.debug(f'SPLITS: {len(splitted_docs)}')
-    coll.add_documents(splitted_docs)
+    coll.add_documents(splitted_docs, embeddings)
     # coll.persist()
 
     return jsonify('OK')
@@ -306,15 +308,15 @@ def chroma_save(value, args):
 @extract_value_args(_request=request)
 def chroma_delete(value, args):
     collection_name = args.get("collection_name") or args.get("new_collection_name")
-    coll = Chroma(collection_name=collection_name, client_settings=client_settings)
-    coll.delete_collection()
+    client = Chroma(api_url=api_url)
+    client.delete_collection(name=collection_name)
     # coll.persist()
 
     return jsonify(f'{collection_name} deleted')
 @app.route("/chroma_collections", methods=["GET"])
 def collections():
 
-    client = chromadb.Client(client_settings)
+    client = Chroma(api_url=api_url)
 
     return jsonify([coll.name for coll in client.list_collections()])
 
@@ -334,7 +336,7 @@ def qa(value, args):
 
     logger.debug(f'ARGS: {args}')
 
-    docsearch = Chroma(collection_name=collection_name, client_settings=client_settings)
+    docsearch = Chroma(api_url=api_url).create_collection(name=collection_name)
     del args['headers']
     llm = get_llm(**args)
 
