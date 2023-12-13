@@ -35,7 +35,9 @@ openai_models = ['ada', 'babbage', 'code-cushman-001', 'code-cushman-002', 'code
 
 gpt4all_models = ['orca-mini-7b', 'llama-2-7b-chat']
 
-chatopenai_models = ['gpt-3.5-turbo', 'gpt-3.5-turbo-0301']
+chatopenai_models = ['gpt-3.5-turbo', 'gpt-3.5-turbo-0301', 'gpt-4']
+
+chatopenai_models = []
 
 default_template = """
 {question}
@@ -175,7 +177,10 @@ def get_llm(**args):
 
     if framework == 'openai':
         model_name = args.get("openai_model_name", "text-davinci-003")
-        llm = OpenAI(model_name=model_name, max_tokens=int(max_tokens), temperature=float(temperature))
+        if model_name in chatopenai_models:
+            llm = ChatOpenAI(model_name=model_name, max_tokens=int(max_tokens), temperature=float(temperature))
+        else:
+            llm = OpenAI(model_name=model_name, max_tokens=int(max_tokens), temperature=float(temperature))
     else:
         model_name = args.get("gpt4all_model_name", "orca-mini-7b")
         model_name = f'{model_name}.ggmlv3.q4_0.bin'
