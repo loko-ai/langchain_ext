@@ -93,7 +93,7 @@ class CustomRetriever(VectorStoreRetriever):
             # docs = [r[0] for i, r in enumerate(res) if i in mmr_selected]
             ### !!! ### [0, 13, 15, 2]
             # print(mmr_selected)
-            docs = [(r[1],r[0]) for i, r in enumerate(res) if i in mmr_selected]
+            docs = [r[0] for i, r in enumerate(res) if i in mmr_selected]
         else:
             raise ValueError(f"search_type of {self.search_type} not allowed.")
         if not docs:
